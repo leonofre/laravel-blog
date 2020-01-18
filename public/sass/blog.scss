@@ -1,0 +1,30 @@
+.posts-wrapper {
+    max-width: 70vw;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    .post {
+        width: 40%;
+        margin-bottom: 20px;
+        img {
+            width: 100%;
+        }
+        .content {
+            padding: 20px;
+            background-color: $primary-color;
+            color: $post-text-color;
+            height: 220px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            h2 {
+                flex: 1;
+                font-size: $h2-font-size;
+            }
+            p {
+                max-height: 170px;
+            }
+        }
+    }
+}
