@@ -14,10 +14,10 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $user = factory(User::class, 3)
+        $user = factory(User::class, 5)
            ->create()
            ->each(function ($user) {
-                $post = factory(Post::class, 1)->create([
+                $post = factory(Post::class, 2)->create([
                 	'author_id' => $user->id,
                 	'author'    => $user->name
                 ]);

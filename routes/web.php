@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AppController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,20 +16,17 @@
 Route::view('/', 'front-page');
 
 Route::group(['prefix' => 'blog'], function() {
-	Route::get('/', 'PostController@index')->name( 'posts' );
-	Route::get('/{slug}', 'PostController@show')->name( 'single-post' );
+	Route::get('/', 'AppController@index')->name( 'posts' );
+	Route::get('/{slug}', 'AppController@show')->name( 'single-post' );
 });
 
 
-Route::group(['prefix' => 'dashboard'], function() {
-    Route::view('/', 'dashboard/dashboard');
-    Route::resource('posts', 'BlogController');
-});
+// Route::group(['prefix' => 'dashboard'], function() {
+//     Route::view('/', 'dashboard/dashboard');
+//     Route::resource('posts', 'BlogController');
+// });
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');

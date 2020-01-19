@@ -1,12 +1,13 @@
 .posts-wrapper {
-    max-width: 70vw;
-    margin: 0 auto;
+    max-width: 60vw;
+    padding-left: 20px;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
     .post {
-        width: 40%;
+        width: 48%;
         margin-bottom: 20px;
+        position: relative;
         img {
             width: 100%;
         }
