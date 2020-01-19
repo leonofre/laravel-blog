@@ -1957,6 +1957,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 var api_url = APP_URL + '/api/';
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -1971,6 +1973,9 @@ var api_url = APP_URL + '/api/';
 
     axios.get(api_url + 'posts/12/1').then(function (response) {
       _this.is_loaded = true;
+      response.data.data.map(function (post, index) {
+        response.data.data[index].url = APP_URL + '/blog/' + post.slug;
+      });
       _this.posts = response.data.data;
     });
   }
@@ -37353,14 +37358,16 @@ var render = function() {
         "div",
         _vm._l(_vm.posts, function(post) {
           return _c("article", { key: post.id, staticClass: "post" }, [
-            _c("img", { attrs: { src: post.image, alt: "" } }),
-            _vm._v(" "),
-            _c("div", { staticClass: "content" }, [
-              _c("h2", [_vm._v(_vm._s(post.title))]),
+            _c("a", { attrs: { href: post.url } }, [
+              _c("img", { attrs: { src: post.image, alt: "" } }),
               _vm._v(" "),
-              _c("p", [_vm._v(_vm._s(post.excerpt))]),
-              _vm._v(" "),
-              _c("small", [_vm._v(_vm._s(post.author))])
+              _c("div", { staticClass: "content" }, [
+                _c("h2", [_vm._v(_vm._s(post.title))]),
+                _vm._v(" "),
+                _c("p", [_vm._v(_vm._s(post.excerpt))]),
+                _vm._v(" "),
+                _c("small", [_vm._v(_vm._s(post.author))])
+              ])
             ])
           ])
         }),

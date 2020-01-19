@@ -1,12 +1,14 @@
 <template>
     <div v-if="is_loaded">
         <article v-for="post in posts" v-bind:key="post.id" class="post">
-            <img :src="post.image" alt="">
-            <div class="content">
-                <h2>{{ post.title }}</h2>
-                <p>{{ post.excerpt }}</p>
-                <small>{{ post.author }}</small>
-            </div>
+            <a :href="post.url">
+                <img :src="post.image" alt="">
+                <div class="content">
+                    <h2>{{ post.title }}</h2>
+                    <p>{{ post.excerpt }}</p>
+                    <small>{{ post.author }}</small>
+                </div>
+            </a>
         </article>
     </div>
     <div v-else>
@@ -43,6 +45,10 @@
               .get( api_url + 'posts/12/1' )
               .then( response => {
                 this.is_loaded = true
+                response.data.data.map( ( post, index ) => {
+                    response.data.data[ index ].url = APP_URL + '/blog/' + post.slug;
+                });
+
                 this.posts = response.data.data
             })
         }
