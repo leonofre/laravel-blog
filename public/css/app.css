@@ -18000,6 +18000,7 @@ header {
   -webkit-box-align: center;
           align-items: center;
   background-color: #00000085;
+  top: 0;
   z-index: 9;
 }
 

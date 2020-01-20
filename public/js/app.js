@@ -1964,8 +1964,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 var api_url = APP_URL + '/api/';
 var blog_url = APP_URL + '/blog';
@@ -1974,7 +1972,7 @@ var user_token = USER_TOKEN;
   data: function data() {
     return {
       post: {},
-      is_loaded: false,
+      is_loading: true,
       title: null,
       errors: [],
       image_name: '',
@@ -1995,7 +1993,7 @@ var user_token = USER_TOKEN;
         _this.post = response.data;
 
         if (200 === response.status) {
-          _this.is_loaded = true;
+          _this.is_loading = false;
         } else {
           _this.posts = [{}];
           _this.has_posts = false;
@@ -2036,7 +2034,7 @@ var user_token = USER_TOKEN;
         image_name: this.image_name,
         image_size: this.image_size
       }).then(function (response) {
-        _this3.is_loaded = true;
+        _this3.is_loading = false;
         _this3.posts = response.data;
 
         if (200 === response.status) {
@@ -2447,10 +2445,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 
 var api_url = APP_URL + '/api/';
 var blog_url = APP_URL + '/blog';
@@ -2458,8 +2452,8 @@ var user_token = USER_TOKEN;
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      posts: [{}, {}, {}, {}],
-      is_loaded: false,
+      posts: [{}],
+      is_loading: true,
       has_posts: false,
       page: '' === window.location.search ? 1 : parseInt(window.location.search.split('=').pop()),
       more_pages: false,
@@ -2477,13 +2471,13 @@ var user_token = USER_TOKEN;
       var _this = this;
 
       axios.get(api_url + "user/posts/".concat(this.posts_number, "/").concat(this.page, "?api_token=").concat(user_token)).then(function (response) {
-        _this.is_loaded = true;
-        response.data.data.map(function (post, index) {
-          response.data.data[index].url = APP_URL + '/home/post/' + post.id;
-        });
-        _this.posts = response.data.data;
+        _this.is_loading = false;
 
         if (200 === response.status) {
+          response.data.data.map(function (post, index) {
+            response.data.data[index].url = APP_URL + '/home/post/' + post.id;
+          });
+          _this.posts = response.data.data;
           _this.has_posts = true;
 
           _this.paginationLinks();
@@ -37890,102 +37884,102 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.is_loaded
-    ? _c("div", [
+  return _c("div", [
+    _c(
+      "form",
+      {
+        key: _vm.post.id,
+        staticClass: "post",
+        on: { submit: this.updatePost }
+      },
+      [
         _c("div", { staticClass: "card-header" }, [
           _vm._v(_vm._s(_vm.post.title))
         ]),
         _vm._v(" "),
-        _c(
-          "form",
-          {
-            key: _vm.post.id,
-            staticClass: "post",
-            on: { submit: this.updatePost }
-          },
-          [
-            _c("div", { staticClass: "form-row" }, [
-              _c("label", { attrs: { for: "title" } }, [
-                _c("legend", [_vm._v("Título")]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.post.title,
-                      expression: "post.title"
-                    }
-                  ],
-                  attrs: { id: "title", type: "text", name: "title" },
-                  domProps: { value: _vm.post.title },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.post, "title", $event.target.value)
-                    }
+        _vm.is_loading
+          ? _c("div", { staticClass: "loader" }, [_vm._m(0)])
+          : _vm._e(),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-row" }, [
+          _c("label", { attrs: { for: "title" } }, [
+            _c("legend", [_vm._v("Título")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.post.title,
+                  expression: "post.title"
+                }
+              ],
+              attrs: { id: "title", type: "text", name: "title" },
+              domProps: { value: _vm.post.title },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
                   }
-                })
-              ]),
+                  _vm.$set(_vm.post, "title", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c(
+            "label",
+            { attrs: { for: "description" } },
+            [
+              _c("legend", [_vm._v("Descrição")]),
               _vm._v(" "),
-              _c(
-                "label",
-                { attrs: { for: "description" } },
-                [
-                  _c("legend", [_vm._v("Descrição")]),
-                  _vm._v(" "),
-                  _c("wysiwyg", {
-                    attrs: { id: "description", name: "description" },
-                    model: {
-                      value: _vm.post.description,
-                      callback: function($$v) {
-                        _vm.$set(_vm.post, "description", $$v)
-                      },
-                      expression: "post.description"
-                    }
-                  })
-                ],
-                1
-              )
-            ]),
+              _c("wysiwyg", {
+                attrs: { id: "description", name: "description" },
+                model: {
+                  value: _vm.post.description,
+                  callback: function($$v) {
+                    _vm.$set(_vm.post, "description", $$v)
+                  },
+                  expression: "post.description"
+                }
+              })
+            ],
+            1
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-row" }, [
+          _c("label", { attrs: { for: "image" } }, [
+            _c("legend", [_vm._v("Imagem")]),
             _vm._v(" "),
-            _c("div", { staticClass: "form-row" }, [
-              _c("label", { attrs: { for: "image" } }, [
-                _c("legend", [_vm._v("Imagem")]),
-                _vm._v(" "),
-                _c("input", {
-                  attrs: { id: "image", type: "file", name: "image" },
-                  on: { change: _vm.uploadImage }
-                })
-              ]),
-              _vm._v(" "),
-              _c("img", { attrs: { src: _vm.post.image, alt: "" } })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-row" }, [
-              _c("input", { attrs: { type: "submit", value: "Enviar" } }),
-              _vm._v(" "),
-              _vm.message ? _c("span", [_vm._v(_vm._s(_vm.message))]) : _vm._e()
-            ])
-          ]
-        )
-      ])
-    : _c("div", [_vm._m(0)])
+            _c("input", {
+              attrs: { id: "image", type: "file", name: "image" },
+              on: { change: _vm.uploadImage }
+            })
+          ]),
+          _vm._v(" "),
+          _c("img", { attrs: { src: _vm.post.image, alt: "" } })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-row" }, [
+          _c("input", { attrs: { type: "submit", value: "Enviar" } }),
+          _vm._v(" "),
+          _vm.message ? _c("span", [_vm._v(_vm._s(_vm.message))]) : _vm._e()
+        ])
+      ]
+    )
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "loader" }, [
-      _c("div", { staticClass: "lds-ring" }, [
-        _c("div"),
-        _c("div"),
-        _c("div"),
-        _c("div")
-      ])
+    return _c("div", { staticClass: "lds-ring" }, [
+      _c("div"),
+      _c("div"),
+      _c("div"),
+      _c("div")
     ])
   }
 ]
@@ -38369,41 +38363,52 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.is_loaded
-    ? _c("div", [
-        _c("table", { staticClass: "table" }, [
-          _vm._m(0),
-          _vm._v(" "),
-          _c(
-            "tbody",
-            _vm._l(_vm.posts, function(post) {
-              return _vm.has_posts
-                ? _c("tr", { key: post.id, staticClass: "posts" }, [
-                    _c("td", [_vm._v(_vm._s(post.id))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(post.title))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(post.excerpt))]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("a", { attrs: { href: post.url } }, [_vm._v("Editar")])
-                    ]),
-                    _vm._v(" "),
-                    _vm._m(1, true)
-                  ])
-                : _c("tr", [
-                    _c("td", { attrs: { colspan: "5" } }, [
-                      _vm._v("Não foram encontrados posts.")
-                    ])
-                  ])
-            }),
-            0
-          )
-        ])
-      ])
-    : _c("div", [_vm._m(2)])
+  return _c("table", { staticClass: "table" }, [
+    _vm.is_loading
+      ? _c("div", { staticClass: "loader" }, [_vm._m(0)])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm._m(1),
+    _vm._v(" "),
+    _c(
+      "tbody",
+      _vm._l(_vm.posts, function(post) {
+        return _vm.has_posts
+          ? _c("tr", { key: post.id, staticClass: "posts" }, [
+              _c("td", [_vm._v(_vm._s(post.id))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(post.title))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(post.excerpt))]),
+              _vm._v(" "),
+              _c("td", [
+                _c("a", { attrs: { href: post.url } }, [_vm._v("Editar")])
+              ]),
+              _vm._v(" "),
+              _vm._m(2, true)
+            ])
+          : _c("tr", [
+              _c("td", { attrs: { colspan: "5" } }, [
+                _vm._v("Não foram encontrados posts.")
+              ])
+            ])
+      }),
+      0
+    )
+  ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "lds-ring" }, [
+      _c("div"),
+      _c("div"),
+      _c("div"),
+      _c("div")
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -38425,19 +38430,6 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("td", [_c("button", [_vm._v("Deletar")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "loader" }, [
-      _c("div", { staticClass: "lds-ring" }, [
-        _c("div"),
-        _c("div"),
-        _c("div"),
-        _c("div")
-      ])
-    ])
   }
 ]
 render._withStripped = true

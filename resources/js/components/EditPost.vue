@@ -1,7 +1,10 @@
 <template>
-    <div v-if="is_loaded">
-        <div class="card-header">{{ post.title }}</div>
+    <div>
         <form v-bind:key="post.id" @submit="this.updatePost" class="post">
+            <div class="card-header">{{ post.title }}</div>
+            <div v-if="is_loading" class="loader">
+                <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+            </div>
             <div class="form-row">
                     <label for="title">
                         <legend>Título</legend>
@@ -25,11 +28,6 @@
             </div>
         </form>
     </div>
-    <div v-else>
-        <div class="loader">
-            <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
-        </div>
-    </div>
 </template>
 <script>
     import { serverBus } from '../blog';
@@ -40,7 +38,7 @@
         data () {
             return {
                 post: {},
-                is_loaded: false,
+                is_loading: true,
                 title: null,
                 errors: [],
                 image_name: '',
@@ -62,7 +60,7 @@
                     this.post = response.data;
 
                     if ( 200 === response.status ) {
-                        this.is_loaded = true
+                        this.is_loading = false
                     } else {
                         this.posts     = [{}];
                         this.has_posts = false;
@@ -101,7 +99,7 @@
                     image_size: this.image_size
                 })
                 .then( response => {
-                    this.is_loaded = true
+                    this.is_loading = false
 
                     this.posts = response.data;
 
