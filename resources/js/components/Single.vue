@@ -7,7 +7,7 @@
             </div>
             <div class="content">
                 <div v-html="post.description"></div>
-                <small>{{ post.author }}</small>
+                <small>{{ post.author }} - {{ post.created_at }}</small>
             </div>
             <nav class="navigation-wrapper">
                 <a class="navigation-link" :href="post.prev_link"><i v-if="post.prev_name" class="fas fa-arrow-circle-left"></i>{{post.prev_name}}</a>

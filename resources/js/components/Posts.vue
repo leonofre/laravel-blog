@@ -8,7 +8,7 @@
                 <div class="content">
                     <h2>{{ post.title }}</h2>
                     <p>{{ post.excerpt }}</p>
-                    <small>{{ post.author }}</small>
+                    <small>{{ post.author }} - {{ post.created_at }}</small>
                 </div>
             </a>
         </article>
@@ -81,7 +81,7 @@
 
                     if ( 200 === response.status ) {
                         response.data.data.map( ( post, index ) => {
-                            response.data.data[ index ].url = BLOG_URL + `/post.slug`;
+                            response.data.data[ index ].url = BLOG_URL + `/${post.slug}`;
                         });
 
                         this.posts     = response.data.data;

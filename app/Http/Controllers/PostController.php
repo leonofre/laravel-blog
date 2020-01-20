@@ -32,12 +32,12 @@ class PostController extends Controller
      */
     public function search( Request $request, $posts_count, $page )
     {
-        if ( '0' !== $request->author ) {
+        if ( $request->author ) {
             $posts = Post::where([
-                ['author_id', '=', \Auth::user()->id],
+                ['author_id', '=', $request->author],
                 ['title', 'like', "%$request->search%"] 
             ])->orWhere( [
-                ['author_id', '=', \Auth::user()->id],
+                ['author_id', '=', $request->author],
                 ['description', 'like', "%$request->search%"] 
             ])->paginate( $posts_count, ['*'], 'page', $page );
         } else {

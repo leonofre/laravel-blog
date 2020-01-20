@@ -13,7 +13,7 @@
 		</thead>
 		<tbody>
 			<tr v-if="has_posts" v-for="post in posts" v-bind:key="post.id" class="posts">
-				<td>{{ post.author_id }}</td>
+				<td>{{ post.id }}</td>
 				<td>{{ post.title }}</td>
 				<td>{{ post.excerpt }}</td>
 				<td><a :href="post.url"><i class="fas fa-pencil-alt"></i></a></td>
@@ -77,7 +77,7 @@
 
                     if ( 200 === response.status ) {
                         response.data.data.map( ( post, index ) => {
-                            response.data.data[ index ].url = HOME_URL + `/${post.slug}`;
+                            response.data.data[ index ].url = HOME_URL + `/post/${post.id}`;
                         });
 
                         this.posts     = response.data.data;

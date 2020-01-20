@@ -31,6 +31,6 @@ Auth::routes();
 Route::group(['prefix' => 'home'], function() {
 	Route::middleware('auth')->get('/', 'HomeController@index')->name('home');
 	Route::middleware('auth')->get('/post', 'HomeController@create')->name( 'create-post' );
-	Route::middleware('auth')->get('/post/{id}', 'HomeController@show')->name( 'edit-post' );
+	Route::middleware('auth')->middleware('has_permission')->get('/post/{id}', 'HomeController@show')->name( 'edit-post' );
 });
 

@@ -2277,7 +2277,7 @@ __webpack_require__.r(__webpack_exports__);
 
         if (200 === response.status) {
           response.data.data.map(function (post, index) {
-            response.data.data[index].url = BLOG_URL + "/post.slug";
+            response.data.data[index].url = BLOG_URL + "/".concat(post.slug);
           });
           _this2.posts = response.data.data;
           _this2.has_posts = true;
@@ -2647,7 +2647,7 @@ var user_token = USER_TOKEN;
 
         if (200 === response.status) {
           response.data.data.map(function (post, index) {
-            response.data.data[index].url = HOME_URL + "/".concat(post.slug);
+            response.data.data[index].url = HOME_URL + "/post/".concat(post.id);
           });
           _this2.posts = response.data.data;
           _this2.has_posts = true;
@@ -38348,7 +38348,11 @@ var render = function() {
                     _vm._v(" "),
                     _c("p", [_vm._v(_vm._s(post.excerpt))]),
                     _vm._v(" "),
-                    _c("small", [_vm._v(_vm._s(post.author))])
+                    _c("small", [
+                      _vm._v(
+                        _vm._s(post.author) + " - " + _vm._s(post.created_at)
+                      )
+                    ])
                   ])
                 ])
               ])
@@ -38501,6 +38505,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "p",
+        { staticClass: "error-wrapper" },
         _vm._l(_vm.errors, function(error) {
           return _c("span", [_vm._v(_vm._s(error))])
         }),
@@ -38555,7 +38560,13 @@ var render = function() {
                   domProps: { innerHTML: _vm._s(_vm.post.description) }
                 }),
                 _vm._v(" "),
-                _c("small", [_vm._v(_vm._s(_vm.post.author))])
+                _c("small", [
+                  _vm._v(
+                    _vm._s(_vm.post.author) +
+                      " - " +
+                      _vm._s(_vm.post.created_at)
+                  )
+                ])
               ]),
               _vm._v(" "),
               _c("nav", { staticClass: "navigation-wrapper" }, [
@@ -38739,7 +38750,7 @@ var render = function() {
       _vm._l(_vm.posts, function(post) {
         return _vm.has_posts
           ? _c("tr", { key: post.id, staticClass: "posts" }, [
-              _c("td", [_vm._v(_vm._s(post.author_id))]),
+              _c("td", [_vm._v(_vm._s(post.id))]),
               _vm._v(" "),
               _c("td", [_vm._v(_vm._s(post.title))]),
               _vm._v(" "),

@@ -19,7 +19,7 @@
 				<input type="submit" value="Enviar">
 			</p>
 
-			<p>
+			<p class="error-wrapper">
 				<span v-for="error in errors">{{ error }}</span>
 			</p>
 		</form>
