@@ -1961,6 +1961,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 var user_token = USER_TOKEN;
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2069,6 +2071,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 var user_token = USER_TOKEN;
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2144,6 +2148,11 @@ var user_token = USER_TOKEN;
         } else {
           _this3.message = 'Erro ao atualizar o post, tente novamente.';
         }
+
+        setTimeout(function () {
+          console.log(this.message);
+          this.message = false;
+        }, 3000);
       });
     }
   }
@@ -2232,6 +2241,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2250,7 +2261,6 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    console.log(this.search);
     this.searchPosts();
   },
   created: function created() {
@@ -2357,7 +2367,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2369,7 +2378,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       authors: [],
       author: null,
       is_loaded: false
-    }, _defineProperty(_ref, "title", '' === window.location.search ? '' : window.location.search.split('=')[2].split('&')[0]), _defineProperty(_ref, "author", '' === window.location.search ? '0' : window.location.search.split('=').pop()), _defineProperty(_ref, "default_image", APP_URL + '/images/default_image.png'), _ref;
+    }, _defineProperty(_ref, "title", '' === window.location.search ? '' : window.location.search.split('=')[2].split('&')[0]), _defineProperty(_ref, "author", '' === window.location.search ? '' : window.location.search.split('=').pop()), _defineProperty(_ref, "default_image", APP_URL + '/images/default_image.png'), _ref;
   },
   mounted: function mounted() {
     this.getAuthors();
@@ -2648,6 +2657,7 @@ var user_token = USER_TOKEN;
         if (200 === response.status) {
           response.data.data.map(function (post, index) {
             response.data.data[index].url = HOME_URL + "/post/".concat(post.id);
+            response.data.data[index].confirmation = false;
           });
           _this2.posts = response.data.data;
           _this2.has_posts = true;
@@ -2683,8 +2693,16 @@ var user_token = USER_TOKEN;
       };
       _blog__WEBPACK_IMPORTED_MODULE_0__["serverBus"].$emit('more-pages', data);
     },
-    deletePost: function deletePost() {
-      this.confirmation = true;
+    deletePost: function deletePost(event) {
+      var posts = this.posts;
+      posts.map(function (post, index) {
+        if (parseInt(event.target.dataset.post) === post.id) {
+          posts[index].confirmation = true;
+        } else {
+          posts[index].confirmation = false;
+        }
+      });
+      this.posts = posts;
     },
     doDelete: function doDelete(event) {
       axios["delete"](API_URL + "user/post/".concat(event.target.value, "?api_token=").concat(user_token)).then(function (response) {
@@ -2694,7 +2712,11 @@ var user_token = USER_TOKEN;
       });
     },
     dontDelete: function dontDelete() {
-      this.confirmation = false;
+      var posts = this.posts;
+      posts.map(function (post, index) {
+        posts[index].confirmation = false;
+      });
+      this.posts = posts;
     }
   }
 });
@@ -38106,8 +38128,10 @@ var render = function() {
                 }
               }
             })
-          ]),
-          _vm._v(" "),
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-row" }, [
           _c(
             "label",
             { attrs: { for: "description" } },
@@ -38129,7 +38153,9 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "form-row" }, [
+        _c("div", { staticClass: "form-row image-row" }, [
+          _c("img", { attrs: { src: _vm.post.image, alt: "" } }),
+          _vm._v(" "),
           _c("label", { attrs: { for: "image" } }, [
             _c("legend", [_vm._v("Imagem")]),
             _vm._v(" "),
@@ -38137,9 +38163,7 @@ var render = function() {
               attrs: { id: "image", type: "file", name: "image" },
               on: { change: _vm.uploadImage }
             })
-          ]),
-          _vm._v(" "),
-          _c("img", { attrs: { src: _vm.post.image, alt: "" } })
+          ])
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "form-row" }, [
@@ -38214,8 +38238,10 @@ var render = function() {
                 }
               }
             })
-          ]),
-          _vm._v(" "),
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-row" }, [
           _c(
             "label",
             { attrs: { for: "description" } },
@@ -38237,7 +38263,9 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "form-row" }, [
+        _c("div", { staticClass: "form-row image-row" }, [
+          _c("img", { attrs: { src: _vm.post.image, alt: "" } }),
+          _vm._v(" "),
           _c("label", { attrs: { for: "image" } }, [
             _c("legend", [_vm._v("Imagem")]),
             _vm._v(" "),
@@ -38245,15 +38273,15 @@ var render = function() {
               attrs: { id: "image", type: "file", name: "image" },
               on: { change: _vm.uploadImage }
             })
-          ]),
-          _vm._v(" "),
-          _c("img", { attrs: { src: _vm.post.image, alt: "" } })
+          ])
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "form-row" }, [
           _c("input", { attrs: { type: "submit", value: "Enviar" } }),
           _vm._v(" "),
-          _vm.message ? _c("span", [_vm._v(_vm._s(_vm.message))]) : _vm._e()
+          _vm.message
+            ? _c("p", { staticClass: "message" }, [_vm._v(_vm._s(_vm.message))])
+            : _vm._e()
         ])
       ]
     )
@@ -38364,13 +38392,15 @@ var render = function() {
         "div",
         _vm._l(_vm.posts, function(post) {
           return _c("article", { key: post.id, staticClass: "posts" }, [
-            _vm._m(0, true),
-            _vm._v(" "),
-            _c("div", { staticClass: "image-wrapper" }, [
-              _c("img", { attrs: { src: _vm.default_image, alt: "" } })
-            ]),
-            _vm._v(" "),
-            _vm._m(1, true)
+            _c("div", { staticClass: "pre-load" }, [
+              _vm._m(0, true),
+              _vm._v(" "),
+              _c("div", { staticClass: "image-wrapper" }, [
+                _c("img", { attrs: { src: _vm.default_image, alt: "" } })
+              ]),
+              _vm._v(" "),
+              _vm._m(1, true)
+            ])
           ])
         }),
         0
@@ -38429,89 +38459,96 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("form", { staticClass: "form-filter", on: { submit: this.checkForm } }, [
-      _c("p", [
-        _c("label", { attrs: { for: "title" } }, [_vm._v("Buscar Por")]),
-        _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.title,
-              expression: "title"
-            }
-          ],
-          attrs: { id: "title", type: "text", name: "title" },
-          domProps: { value: _vm.title },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.title = $event.target.value
-            }
-          }
-        })
-      ]),
-      _vm._v(" "),
-      _c("p", [
-        _c("label", { attrs: { for: "author" } }, [_vm._v("Autor")]),
-        _vm._v(" "),
-        _c(
-          "select",
-          {
+    _c(
+      "form",
+      { staticClass: "form-filter", on: { submit: this.checkForm } },
+      [
+        _c("div", [
+          _c("input", {
             directives: [
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.author,
-                expression: "author"
+                value: _vm.title,
+                expression: "title"
               }
             ],
-            attrs: { id: "author", name: "author" },
+            attrs: {
+              id: "title",
+              type: "text",
+              name: "title",
+              placeholder: "Buscar Por"
+            },
+            domProps: { value: _vm.title },
             on: {
-              change: function($event) {
-                var $$selectedVal = Array.prototype.filter
-                  .call($event.target.options, function(o) {
-                    return o.selected
-                  })
-                  .map(function(o) {
-                    var val = "_value" in o ? o._value : o.value
-                    return val
-                  })
-                _vm.author = $event.target.multiple
-                  ? $$selectedVal
-                  : $$selectedVal[0]
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.title = $event.target.value
               }
             }
-          },
-          [
-            _c("option", { attrs: { value: "0", selected: "selected" } }, [
-              _vm._v("Selecione o autor")
-            ]),
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", [
+          _c("div", { staticClass: "select-wrapper" }, [
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.author,
+                    expression: "author"
+                  }
+                ],
+                attrs: { id: "author", name: "author" },
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.author = $event.target.multiple
+                      ? $$selectedVal
+                      : $$selectedVal[0]
+                  }
+                }
+              },
+              [
+                _c("option", { attrs: { value: "", selected: "selected" } }, [
+                  _vm._v("Selecione o autor")
+                ]),
+                _vm._v(" "),
+                _vm._l(_vm.authors, function(author) {
+                  return _c("option", { domProps: { value: author.id } }, [
+                    _vm._v(_vm._s(author.name))
+                  ])
+                })
+              ],
+              2
+            ),
             _vm._v(" "),
-            _vm._l(_vm.authors, function(author) {
-              return _c("option", { domProps: { value: author.id } }, [
-                _vm._v(_vm._s(author.name))
-              ])
-            })
-          ],
-          2
-        )
-      ]),
-      _vm._v(" "),
-      _vm._m(0),
-      _vm._v(" "),
-      _c(
-        "p",
-        { staticClass: "error-wrapper" },
+            _c("i", { staticClass: "fas fa-sort-down" })
+          ])
+        ]),
+        _vm._v(" "),
+        _vm._m(0),
+        _vm._v(" "),
         _vm._l(_vm.errors, function(error) {
-          return _c("span", [_vm._v(_vm._s(error))])
-        }),
-        0
-      )
-    ])
+          return _c("p", { staticClass: "error-wrapper" }, [
+            _vm._v(_vm._s(error))
+          ])
+        })
+      ],
+      2
+    )
   ])
 }
 var staticRenderFns = [
@@ -38519,7 +38556,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("p", [
+    return _c("div", [
       _c("input", { attrs: { type: "submit", value: "Enviar" } })
     ])
   }
@@ -38561,11 +38598,13 @@ var render = function() {
                 }),
                 _vm._v(" "),
                 _c("small", [
-                  _vm._v(
-                    _vm._s(_vm.post.author) +
-                      " - " +
-                      _vm._s(_vm.post.created_at)
-                  )
+                  _c("strong", [
+                    _vm._v(
+                      _vm._s(_vm.post.author) +
+                        " - " +
+                        _vm._s(_vm.post.created_at)
+                    )
+                  ])
                 ])
               ]),
               _vm._v(" "),
@@ -38578,9 +38617,11 @@ var render = function() {
                   },
                   [
                     _vm.post.prev_name
-                      ? _c("i", { staticClass: "fas fa-arrow-circle-left" })
-                      : _vm._e(),
-                    _vm._v(_vm._s(_vm.post.prev_name))
+                      ? _c("span", [
+                          _c("i", { staticClass: "fas fa-arrow-circle-left" }),
+                          _vm._v(" Anterior")
+                        ])
+                      : _vm._e()
                   ]
                 ),
                 _vm._v(" "),
@@ -38591,9 +38632,11 @@ var render = function() {
                     attrs: { href: _vm.post.next_link }
                   },
                   [
-                    _vm._v(_vm._s(_vm.post.next_name) + " "),
                     _vm.post.next_name
-                      ? _c("i", { staticClass: "fas fa-arrow-circle-right" })
+                      ? _c("span", [
+                          _vm._v("Próximo "),
+                          _c("i", { staticClass: "fas fa-arrow-circle-right" })
+                        ])
                       : _vm._e()
                   ]
                 )
@@ -38640,7 +38683,7 @@ var staticRenderFns = [
         )
       ]),
       _vm._v(" "),
-      _c("small", [_vm._v("Post Author")])
+      _c("small", [_c("strong", [_vm._v("Post Author")])])
     ])
   }
 ]
@@ -38670,7 +38713,8 @@ var render = function() {
     [
       _c("div", { staticClass: "card-header" }, [
         _c("a", { attrs: { href: _vm.create_post_url } }, [
-          _c("i", { staticClass: "fas fa-plus" })
+          _c("i", { staticClass: "fas fa-plus" }),
+          _vm._v(" Novo Post")
         ]),
         _vm._v(" "),
         _c("h2", [_vm._v("Meus Posts")]),
@@ -38763,12 +38807,23 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("td", [
-                _c("button", { on: { click: _vm.deletePost } }, [
-                  _c("i", { staticClass: "far fa-trash-alt" })
-                ]),
+                _c(
+                  "button",
+                  {
+                    staticClass: "critical",
+                    attrs: { "data-post": post.id },
+                    on: { click: _vm.deletePost }
+                  },
+                  [
+                    _c("i", {
+                      staticClass: "far fa-trash-alt",
+                      attrs: { "data-post": post.id }
+                    })
+                  ]
+                ),
                 _vm._v(" "),
-                _vm.confirmation
-                  ? _c("div", [
+                post.confirmation
+                  ? _c("div", { staticClass: "confirmation-box" }, [
                       _c("label", [
                         _vm._v("Você deseja realmente deletar este post?")
                       ]),
@@ -38777,15 +38832,21 @@ var render = function() {
                         _c(
                           "button",
                           {
+                            staticClass: "critical",
                             attrs: { value: post.id },
                             on: { click: _vm.doDelete }
                           },
                           [_vm._v("Sim")]
                         ),
                         _vm._v(" "),
-                        _c("button", { on: { click: _vm.dontDelete } }, [
-                          _vm._v("Não")
-                        ])
+                        _c(
+                          "button",
+                          {
+                            staticClass: "safe",
+                            on: { click: _vm.dontDelete }
+                          },
+                          [_vm._v("Não")]
+                        )
                       ])
                     ])
                   : _vm._e()
@@ -51011,7 +51072,7 @@ module.exports = function(module) {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-// removed by extract-text-webpack-plugin
+throw new Error("Module build failed (from ./node_modules/css-loader/index.js):\nModuleBuildError: Module build failed (from ./node_modules/sass-loader/dist/cjs.js):\n\n\t.form-row {\n ^\n      Expected digit.\n   ╷\n67 │     .form-row {\n   │      ^\n   ╵\n  public/sass/forms.scss 67:3  @import\n  stdin 29:9                   root stylesheet\n      in /home/vagrant/code/public/sass/forms.scss (line 67, column 3)\n    at /home/vagrant/code/node_modules/webpack/lib/NormalModule.js:316:20\n    at /home/vagrant/code/node_modules/loader-runner/lib/LoaderRunner.js:367:11\n    at /home/vagrant/code/node_modules/loader-runner/lib/LoaderRunner.js:233:18\n    at context.callback (/home/vagrant/code/node_modules/loader-runner/lib/LoaderRunner.js:111:13)\n    at /home/vagrant/code/node_modules/sass-loader/dist/index.js:89:7\n    at Function.call$2 (/home/vagrant/code/node_modules/sass/sass.dart.js:55844:16)\n    at _render_closure1.call$2 (/home/vagrant/code/node_modules/sass/sass.dart.js:34348:12)\n    at _RootZone.runBinary$3$3 (/home/vagrant/code/node_modules/sass/sass.dart.js:20161:18)\n    at _RootZone.runBinary$3 (/home/vagrant/code/node_modules/sass/sass.dart.js:20165:19)\n    at _FutureListener.handleError$1 (/home/vagrant/code/node_modules/sass/sass.dart.js:18630:19)\n    at _Future__propagateToListeners_handleError.call$0 (/home/vagrant/code/node_modules/sass/sass.dart.js:18918:40)\n    at Object._Future__propagateToListeners (/home/vagrant/code/node_modules/sass/sass.dart.js:3500:88)\n    at _Future._completeError$2 (/home/vagrant/code/node_modules/sass/sass.dart.js:18754:9)\n    at _AsyncAwaitCompleter.completeError$2 (/home/vagrant/code/node_modules/sass/sass.dart.js:18153:12)\n    at Object._asyncRethrow (/home/vagrant/code/node_modules/sass/sass.dart.js:3256:17)\n    at /home/vagrant/code/node_modules/sass/sass.dart.js:10608:20\n    at _wrapJsFunctionForAsync_closure.$protected (/home/vagrant/code/node_modules/sass/sass.dart.js:3279:15)\n    at _wrapJsFunctionForAsync_closure.call$2 (/home/vagrant/code/node_modules/sass/sass.dart.js:18174:12)\n    at _awaitOnObject_closure0.call$2 (/home/vagrant/code/node_modules/sass/sass.dart.js:18166:25)\n    at _RootZone.runBinary$3$3 (/home/vagrant/code/node_modules/sass/sass.dart.js:20161:18)\n    at _RootZone.runBinary$3 (/home/vagrant/code/node_modules/sass/sass.dart.js:20165:19)\n    at _FutureListener.handleError$1 (/home/vagrant/code/node_modules/sass/sass.dart.js:18630:19)\n    at _Future__propagateToListeners_handleError.call$0 (/home/vagrant/code/node_modules/sass/sass.dart.js:18918:40)\n    at Object._Future__propagateToListeners (/home/vagrant/code/node_modules/sass/sass.dart.js:3500:88)\n    at _Future._completeError$2 (/home/vagrant/code/node_modules/sass/sass.dart.js:18754:9)\n    at _AsyncAwaitCompleter.completeError$2 (/home/vagrant/code/node_modules/sass/sass.dart.js:18153:12)\n    at Object._asyncRethrow (/home/vagrant/code/node_modules/sass/sass.dart.js:3256:17)\n    at /home/vagrant/code/node_modules/sass/sass.dart.js:12499:20\n    at _wrapJsFunctionForAsync_closure.$protected (/home/vagrant/code/node_modules/sass/sass.dart.js:3279:15)\n    at _wrapJsFunctionForAsync_closure.call$2 (/home/vagrant/code/node_modules/sass/sass.dart.js:18174:12)\n    at _awaitOnObject_closure0.call$2 (/home/vagrant/code/node_modules/sass/sass.dart.js:18166:25)\n    at _RootZone.runBinary$3$3 (/home/vagrant/code/node_modules/sass/sass.dart.js:20161:18)\n    at _RootZone.runBinary$3 (/home/vagrant/code/node_modules/sass/sass.dart.js:20165:19)\n    at _FutureListener.handleError$1 (/home/vagrant/code/node_modules/sass/sass.dart.js:18630:19)\n    at _Future__propagateToListeners_handleError.call$0 (/home/vagrant/code/node_modules/sass/sass.dart.js:18918:40)\n    at Object._Future__propagateToListeners (/home/vagrant/code/node_modules/sass/sass.dart.js:3500:88)");
 
 /***/ }),
 

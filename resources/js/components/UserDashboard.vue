@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="card-header">
-			<a :href="create_post_url"><i class="fas fa-plus"></i></a>
+			<a :href="create_post_url"><i class="fas fa-plus"></i> Novo Post</a>
 			<h2>Meus Posts</h2>
 			<form @submit="getPosts">
 				<input type="text" name="search" placeholder="Buscar por" v-model="search">

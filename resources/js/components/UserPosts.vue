@@ -18,12 +18,12 @@
 				<td>{{ post.excerpt }}</td>
 				<td><a :href="post.url"><i class="fas fa-pencil-alt"></i></a></td>
 				<td>
-					<button v-on:click="deletePost"><i class="far fa-trash-alt"></i></button>
-					<div v-if="confirmation">
+					<button class="critical" v-on:click="deletePost" :data-post="post.id"><i class="far fa-trash-alt" :data-post="post.id"></i></button>
+					<div class="confirmation-box" v-if="post.confirmation">
 						<label>Você deseja realmente deletar este post?</label>
 						<div class="options">
-							<button v-on:click="doDelete" :value="post.id">Sim</button>
-							<button v-on:click="dontDelete">Não</button>
+							<button class="critical" v-on:click="doDelete" :value="post.id">Sim</button>
+							<button class="safe" v-on:click="dontDelete">Não</button>
 						</div>
 					</div>
 				</td>
@@ -78,6 +78,7 @@
                     if ( 200 === response.status ) {
                         response.data.data.map( ( post, index ) => {
                             response.data.data[ index ].url = HOME_URL + `/post/${post.id}`;
+                            response.data.data[ index ].confirmation = false;
                         });
 
                         this.posts     = response.data.data;
@@ -112,8 +113,17 @@
 
 				serverBus.$emit( 'more-pages', data );
 			},
-			deletePost: function() {
-				this.confirmation = true;
+			deletePost: function( event ) {
+				var posts = this.posts;
+				posts.map( function( post, index ) {
+					if ( parseInt( event.target.dataset.post ) === post.id ) {
+						posts[ index ].confirmation = true;
+					} else {
+						posts[ index ].confirmation = false;
+					}
+				})
+
+				this.posts = posts;
 			},
 			doDelete: function( event ) {
 				axios
@@ -125,7 +135,13 @@
                 })
 			},
 			dontDelete: function() {
-				this.confirmation = false;
+				var posts = this.posts;
+
+				posts.map( function( post, index ) {
+					posts[ index ].confirmation = false;
+				})
+
+				this.posts = posts;
 			}
 		}
 	}

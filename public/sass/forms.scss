@@ -1,27 +1,109 @@
 .posts-filter {
 	position: fixed;
-	right: 20px;
+	right: 0;
+	width: 20vw;
 	.form-filter {
-	    padding: 20px;
-	    background-color: $primary-color;
-	    display: flex;
-	    flex-direction: column;
-	    justify-content: space-between;
-	    align-items: flex-end;
-	    p {
-	    	display: flex;
-		    flex-direction: column;
-		    justify-content: space-between;
-		    align-items: flex-end;
-		    width: 100%;
-		    label {
-		    	color: $post-text-color;
-		    }
-		    input,
-		    select {
-		    	width: 100%;
-		    	border-radius: 0;
-		    }
-	    }
+		padding: 20px;
+		border: 1px solid $primary-color;
+		border-right: none;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		align-items: flex-end;
+		div {
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			align-items: flex-end;
+			width: 100%;
+			margin: 10px 0;
+			label {
+				color: $post-text-color;
+			}
+			input {
+				width: 100%;
+				border-radius: 0;
+				border: $field-border;
+				padding: 10px;
+				-webkit-appearance: none;
+				background-color: $field-bgcolor;
+			}
+			.select-wrapper {
+				position: relative;
+				select {
+					width: 100%;
+					border-radius: 0;
+					border: $field-border;
+					padding: 10px;
+					-webkit-appearance: none;
+					background-color: $field-bgcolor;
+				}
+				i {
+					position: absolute;
+					bottom: 50%;
+					transform: translate( 0%, 25% );
+					right: 15px;
+				}
+			}
+			input[type=submit] {
+				background-color: $button-bgcolor;
+				border: none;
+				color: $button-color;
+			}
+		}
+		.error-wrapper {
+			position: absolute;
+			bottom: -50px;
+			right: 0;
+			width: 100%;
+			color: #fff;
+			background-color: $error-color;
+			padding: 8px;
+		}
+	}
+}
+.post {
+	padding-bottom: 20px;
+	.form-row {
+		margin: 0;
+		padding: 0 20px;
+		label {
+			width: 100%;
+		}
+		input {
+			width: 100%;
+			border-radius: 0;
+			border: $field-border;
+			padding: 10px;
+			-webkit-appearance: none;
+			background-color: $field-bgcolor;
+		}
+		input[type=submit] {
+			background-color: $button-bgcolor;
+			border: none;
+			color: $button-color;
+		}
+		.message {
+			background: $success-color;
+			color: $primary-color;
+		    padding: 10px 20px;
+		    position: absolute;
+		    bottom: 27px;
+		    right: 20px;
+		    left: 20px;
+		    text-align: center;
+		}
+	}
+	.image-row {
+		display: flex;
+		justify-content: space-between;
+		padding: 30px 20px;
+		label {
+			width: 40%;
+		}
+		img {
+			width: auto;
+			max-width: 50%;
+		}
 	}
 }

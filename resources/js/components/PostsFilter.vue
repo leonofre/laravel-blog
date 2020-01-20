@@ -2,26 +2,25 @@
 	<div>
 		<form @submit="this.checkForm" class="form-filter">
 				
-			<p>
-				<label for="title">Buscar Por</label>
-				<input id="title" v-model="title" type="text" name="title">
-			</p>
+			<div>
+				<input id="title" v-model="title" type="text" name="title" placeholder="Buscar Por">
+			</div>
 
-			<p>
-				<label for="author">Autor</label>
-				<select v-model="author" id="author" name="author">
-					<option value="0" selected="selected">Selecione o autor</option>
-			    	<option v-for="author in authors" :value="author.id">{{ author.name }}</option>
-			    </select>
-			</p>
+			<div>
+				<div class="select-wrapper">
+					<select v-model="author" id="author" name="author">
+						<option value="" selected="selected">Selecione o autor</option>
+				    	<option v-for="author in authors" :value="author.id">{{ author.name }}</option>
+				    </select>
+				    <i class="fas fa-sort-down"></i>
+				</div>
+			</div>
 
-			<p>
+			<div>
 				<input type="submit" value="Enviar">
-			</p>
+			</div>
 
-			<p class="error-wrapper">
-				<span v-for="error in errors">{{ error }}</span>
-			</p>
+			<p v-for="error in errors" class="error-wrapper">{{ error }}</p>
 		</form>
 	</div>
 </template>
@@ -36,7 +35,7 @@
                 author: null,
                 is_loaded: false,
                 title: '' === window.location.search ? '' : window.location.search.split( '=' )[2].split( '&' )[0],
-                author: '' === window.location.search ? '0' : window.location.search.split( '=' ).pop(),
+                author: '' === window.location.search ? '' : window.location.search.split( '=' ).pop(),
                 default_image: APP_URL + '/images/default_image.png'
             }
         },

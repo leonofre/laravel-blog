@@ -18,16 +18,18 @@
     </div>
     <div v-else>
         <article v-for="post in posts" v-bind:key="post.id" class="posts">
-            <div class="loader">
-                <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
-            </div>
-            <div class="image-wrapper">
-                <img :src="default_image" alt="">
-            </div>
-            <div class="content">
-                <h2>Post Title</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur, similique fugit quod commodi, deserunt.</p>
-                <small>Post Author</small>
+            <div class="pre-load">
+                <div class="loader">
+                    <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+                </div>
+                <div class="image-wrapper">
+                    <img :src="default_image" alt="">
+                </div>
+                <div class="content">
+                    <h2>Post Title</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur, similique fugit quod commodi, deserunt.</p>
+                    <small>Post Author</small>
+                </div>
             </div>
         </article>
     </div>
@@ -56,7 +58,6 @@
             }
         },
         mounted () {
-            console.log( this.search )
             this.searchPosts();
         },
         created() {

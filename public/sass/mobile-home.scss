@@ -1,0 +1,9 @@
+@media ( max-width: $mobile-medium ) {
+	.container {
+		.card {
+			.card-header {
+				flex-direction: column;
+			}
+		}
+	}
+}

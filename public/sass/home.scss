@@ -4,6 +4,76 @@
 		.card-header {
 			display: flex;
 			justify-content: space-between;
+			align-items: center;
+			a {
+				background-color: transparent;
+				border: none;
+				color: $success-color;
+				padding: 5px;
+				i {
+					text-shadow: 1px 1px 1px $button-bgcolor;
+					font-size: $icon-font-size;
+				}
+			}
+			form {
+				input {
+					border-radius: 0;
+					border: $field-border;
+					padding: 10px;
+					-webkit-appearance: none;
+					background-color: $field-bgcolor;
+				}
+				button {
+					background-color: $button-bgcolor;
+					border: none;
+					color: $button-color;
+					font-size: $icon-font-size;
+					padding: 5px 10px;
+					vertical-align: bottom;
+				}
+			}
+		}
+		.table {
+			tr {
+				td {
+					font-size: $p-font-size;
+					a,
+					button {
+						background-color: transparent;
+						border: none;
+						padding: 5px;
+						text-shadow: 1px 1px 1px $button-bgcolor;
+						font-size: $icon-font-size;
+					}
+					a {
+						color: $update-color;
+					}
+					.critical {
+						color: $error-color;
+					}
+					.confirmation-box {
+						position: absolute;
+						right: 0;
+						background: $error-color;
+						border: 1px solid $primary-color;
+						padding: 20px;
+						color: #fff;
+						text-align: center;
+						.critical {
+							color: $primary-color;
+							background-color: $error-color;
+							background-color: $button-error-color;
+							margin-right: 40px;
+							padding: 10px 20px;
+						}
+						.safe {
+							color: $primary-color;
+							background-color: $success-color;
+							padding: 10px 20px;
+						}
+					}
+				}
+			}
 		}
 	}
 }

@@ -1,3 +1,8 @@
+// Screen sizes
+$mobile-large: 1024px;
+$mobile-medium: 768px;
+$mobile-small: 425px;
+
 // Body
 $body-bg: #f8fafc;
 
@@ -5,9 +10,12 @@ $body-bg: #f8fafc;
 $font-family-sans-serif: 'Nunito', sans-serif;
 $font-size-base: 0.9rem;
 $line-height-base: 1.6;
-$h2-font-size: 1.2rem;
+$h2-font-size: 1.7rem;
 $h2-single-font-size: 3rem;
-$navigation-font-size: 2rem;
+$h2-single-font-size-mobile: 2rem;
+$p-font-size: 1.1rem;
+$icon-font-size: 1.3rem;
+$navigation-font-size: 1.3rem;
 
 // Colors
 $blue: #3490dc;
@@ -20,10 +28,24 @@ $yellow: #ffed4a;
 $green: #38c172;
 $teal: #4dc0b5;
 $cyan: #6cb2eb;
-$post-text-color: #d4d4d4;
-$primary-color: #3f51b5;
+$post-text-color: #757575;
+$primary-color: #f1f1f1;
 $single-title-color: #ffffff;
 $loader-color: #ffffff;
 $single-loader-color: #ffffff;
 $background-oppacity-color: #00000085;
-$navigation-disabled: #444444;
+$navigation-disabled: #a9a9a9;
+$navigation-color: #444444;
+$title-color: #444444;
+$dropdown-bgcolor: #444444;
+$dropdown-color: #f8f9fa;
+$field-bgcolor: #f1f1f1;
+$button-bgcolor: #7a7a7a;
+$button-color: #f1f1f1;
+$error-color: #9e170d;
+$button-error-color: #801008;
+$success-color: #0f8041;
+$update-color: #2196f3;
+
+// Border
+$field-border: none;

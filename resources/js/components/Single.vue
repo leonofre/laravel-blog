@@ -7,11 +7,11 @@
             </div>
             <div class="content">
                 <div v-html="post.description"></div>
-                <small>{{ post.author }} - {{ post.created_at }}</small>
+                <small><strong>{{ post.author }} - {{ post.created_at }}</strong></small>
             </div>
             <nav class="navigation-wrapper">
-                <a class="navigation-link" :href="post.prev_link"><i v-if="post.prev_name" class="fas fa-arrow-circle-left"></i>{{post.prev_name}}</a>
-                <a class="navigation-link" :href="post.next_link">{{post.next_name}} <i v-if="post.next_name" class="fas fa-arrow-circle-right"></i></a>
+                <a class="navigation-link" :href="post.prev_link"><span v-if="post.prev_name"><i class="fas fa-arrow-circle-left"></i> Anterior</span></a>
+                <a class="navigation-link" :href="post.next_link"><span v-if="post.next_name">Próximo <i class="fas fa-arrow-circle-right"></i></span></a>
             </nav>
         </article>
     </div>
@@ -26,7 +26,7 @@
             </div>
             <div class="content">
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur, similique fugit quod commodi, deserunt.</p>
-                <small>Post Author</small>
+                <small><strong>Post Author</strong></small>
             </div>
         </article>
     </div>
