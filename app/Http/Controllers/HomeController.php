@@ -36,4 +36,15 @@ class HomeController extends Controller
     {
         return view( 'dashboard/edit-post' );
     }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return view( 'dashboard/create-post' );
+    }
 }

@@ -1,31 +1,35 @@
 <template>
-    <form v-bind:key="post.id" @submit="this.updatePost" class="post">
+    <div v-if="is_loaded">
         <div class="card-header">{{ post.title }}</div>
-        <div  v-if="is_loaded" class="loader">
+        <form v-bind:key="post.id" @submit="this.updatePost" class="post">
+            <div class="form-row">
+                    <label for="title">
+                        <legend>Título</legend>
+                        <input id="title" v-model="post.title" type="text" name="title">
+                    </label>
+                    <label for="description">
+                        <legend>Descrição</legend>
+                        <wysiwyg id="description" v-model="post.description" name="description" />
+                    </label>
+            </div>
+            <div class="form-row">
+                    <label for="image">
+                        <legend>Imagem</legend>
+                        <input id="image" v-on:change="uploadImage" type="file" name="image">
+                    </label>
+                    <img :src="post.image" alt="">
+            </div>
+            <div class="form-row">
+                    <input type="submit" value="Enviar">
+                    <span v-if="message">{{ message }}</span>
+            </div>
+        </form>
+    </div>
+    <div v-else>
+        <div class="loader">
             <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
         </div>
-        <div class="form-row">
-                <label for="title">
-                    <legend>Título</legend>
-                    <input id="title" v-model="post.title" type="text" name="title">
-                </label>
-                <label for="description">
-                    <legend>Descrição</legend>
-                    <wysiwyg id="description" v-model="post.description" name="description" />
-                </label>
-        </div>
-        <div class="form-row">
-                <label for="image">
-                    <legend>Imagem</legend>
-                    <input id="image" v-on:change="uploadImage" type="file" name="image">
-                </label>
-                <img :src="post.image" alt="">
-        </div>
-        <div class="form-row">
-                <input type="submit" value="Enviar">
-                <span v-if="message">{{ message }}</span>
-        </div>
-    </form>
+    </div>
 </template>
 <script>
     import { serverBus } from '../blog';
