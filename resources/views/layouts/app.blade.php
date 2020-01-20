@@ -10,8 +10,14 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <script type="text/javascript">
-        var APP_URL = {!! json_encode(url('/')) !!}
+        const APP_URL = {!! json_encode(url('/')) !!}
+        const ROUTE   = '{!! Route::currentRouteName() !!}'
     </script>
+    @auth
+    <script type="text/javascript">
+        const USER_TOKEN = '{!! Auth::user()->api_token !!}'
+    </script>
+    @endauth
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -25,9 +31,13 @@
 </head>
 <body>
     <header class="container-full flex-center position-ref">
+        <nav class="top-left links">
+            <a href="{{ url('/blog') }}">Blog</a>
+        </nav>
         <div class="links">
             <a href="{{ url('/') }}">Laravel Blog</a>
         </div>
+
         @if (Route::has('login'))
             <div class="top-right links">
                 @auth
@@ -53,7 +63,7 @@
 
     </header>
 
-    <main class="py-4">
+    <main>
         @yield('content')
     </main>
 </body>

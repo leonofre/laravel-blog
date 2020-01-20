@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Post;
+use Illuminate\Routing\Route;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -17,7 +19,7 @@ class PostController extends Controller
     {
     	$posts = Post::paginate( $posts_count, ['*'], 'page', $page );
 
-    	return $posts;
+    	return ! empty( $posts->items() ) ? response( $posts, 200 ) : response( $posts, 204 );
     }
 
     /**
@@ -27,7 +29,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -36,31 +38,97 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store( Request $request )
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'image' => 'required',
+        ]);
+  
+        $response = Post::create( $request->all() );
+   
+        return $response;
+    }
+
+    /**
+     * Display the filtered resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $posts_count
+     * @param  int  $page
+     * @return \Illuminate\Http\Response
+     */
+    public function search( Request $request, $posts_count, $page )
+    {
+    	$posts = Post::where( 'title', 'like', "%$request->search%" )->where( 'description', 'like', "%$request->search%" )->where( 'author_id', '=', $request->author )->paginate( $posts_count, ['*'], 'page', $page );
+
+        return ! empty( $posts->items() ) ? response( $posts, 200 ) : response( $posts, 204 );
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $slug
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show( $slug )
     {
-        //
+        $post      = Post::where( 'slug', '=', $slug )->first();
+
+        if ( empty( $post ) ) {
+        	return response( $post, 204 );
+        }
+
+        $prev      = Post::where( 'id', '<', $post->id )->orderBy( 'id', 'DESC' )->first();
+        $next      = Post::where( 'id', '>', $post->id )->orderBy( 'id' )->first();
+
+        $post->url       = url( '/blog' ) . "/$slug";
+        if ( ! empty( $next ) ) {
+	        $post->next_link = url( '/blog' ) . "/$next->slug";
+	        $post->next_name = $next->title;
+        }
+
+        if ( ! empty( $prev ) ) {
+	        $post->prev_link = url( '/blog' ) . "/$prev->slug";
+	        $post->prev_name = $prev->title;
+        }
+
+        return response( $post, 200 );
+    }
+
+
+    /**
+     * Display the paginated posts of current user.
+     *
+     * @param  int  $posts_count
+     * @param  int  $page
+     * @return \Illuminate\Http\Response
+     */
+    public function user_posts( $posts_count, $page )
+    {
+    	$posts = Post::where( 'author_id', '=', \Auth::user()->id )->paginate( $posts_count, ['*'], 'page', $page );
+
+        return ! empty( $posts->items() ) ? response( $posts, 200 ) : response( $posts, 204 );
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function user_post( $id )
     {
-        //
+        $post      = Post::where( 'id', '=', $id )->first();
+
+        if ( empty( $post ) ) {
+        	return response( $post, 204 );
+        }
+       
+        $post->url       = url( '/blog' ) . "/$post->slug";
+
+        return response( $post, 200 );
     }
 
     /**
@@ -72,7 +140,43 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $is_valid = $request->validate([
+            'image_size'       => 'numeric|max:4096000',
+            'post.title'       => 'required',
+            'post.description' => 'required',
+        ]);
+
+        if ( ! $is_valid ) {
+        	var_dump( $is_valid );
+        }
+
+
+        $post_data            = $request->post;
+        $post_data['excerpt'] = strip_tags( Str::words( $post_data['description'], 15 ) );
+        
+        if ( $request->image_name ) {
+	        $image_name           = explode( '.', $request->image_name );
+	        $image_name           = $image_name[0] . '-' . now() . ".$image_name[1]";
+	        $path                 = public_path(). "/images/$image_name";
+	        $link                 = url( '/' ). "/images/$image_name";
+	        try{
+	        	$post_data['image']   = $link;
+		        $image                = $request->post['image'];
+		        $image                = str_replace( 'data:image/png;base64,', '', $image );
+		        $image                = str_replace( ' ', '+', $image );
+		        $file                 = \File::put( $path, base64_decode( $image ) );
+	        } catch( \FileException $e ) {
+	        	return response( $e, 500 );
+	        }
+        }
+
+
+        $post = Post::find( $request->post['id'] );
+        $post->update( $post_data );
+  
+
+        return response( $post, 200 );
     }
 
     /**

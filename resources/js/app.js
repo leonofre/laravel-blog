@@ -6,5 +6,23 @@
 
 require('./bootstrap');
 
-require( './blog' );
+console.log( ROUTE );
 
+if ( 'posts' === ROUTE ) {
+	require( './blog' );
+	require( './navigation-links' );
+}
+
+
+if ( 'single-post' === ROUTE ) {
+	require( './single' );
+}
+
+if ( 'home' === ROUTE ) {
+	require( './user-posts' );
+	require( './navigation-links' );
+}
+
+if ( 'edit-post' === ROUTE ) {
+	require( './edit-post' );
+}

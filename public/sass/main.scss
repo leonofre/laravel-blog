@@ -2,8 +2,14 @@
     white-space: normal;
     word-break: break-word;
     box-sizing: border-box;
+    main {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
 }
 
+// Estilos padrão do Laravel
 html, body {
     background-color: #fff;
     color: #636b6f;
@@ -38,6 +44,12 @@ header {
 .top-right {
     position: absolute;
     right: 10px;
+    top: 18px;
+}
+
+.top-left {
+    position: absolute;
+    left: 10px;
     top: 18px;
 }
 

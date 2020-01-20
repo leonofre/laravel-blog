@@ -1,6 +1,15 @@
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
 
+// Import Font Awesome
+@import '~@fortawesome/fontawesome-free/scss/brands';
+@import '~@fortawesome/fontawesome-free/scss/regular';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+
+// Vue WYSIWYG
+@import "~vue-wysiwyg/dist/vueWysiwyg.css";
+
 // Variables
 @import 'variables';
 
@@ -10,8 +19,11 @@
 // Default styles present in Laravel installation.
 @import 'main';
 
-// Styles create to posts list page.
+// Styles created to posts list page.
 @import 'blog';
+
+// Styles created to formularies.
+@import 'forms';
 
 // Request loader styles.
 @import 'loader';
