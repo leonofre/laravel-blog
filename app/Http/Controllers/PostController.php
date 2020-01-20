@@ -32,7 +32,17 @@ class PostController extends Controller
      */
     public function search( Request $request, $posts_count, $page )
     {
-    	$posts = Post::where( 'title', 'like', "%$request->search%" )->orWhere( 'description', 'like', "%$request->search%" )->where( 'author_id', '=', $request->author )->paginate( $posts_count, ['*'], 'page', $page );
+        if ( '0' !== $request->author ) {
+            $posts = Post::where([
+                ['author_id', '=', \Auth::user()->id],
+                ['title', 'like', "%$request->search%"] 
+            ])->orWhere( [
+                ['author_id', '=', \Auth::user()->id],
+                ['description', 'like', "%$request->search%"] 
+            ])->paginate( $posts_count, ['*'], 'page', $page );
+        } else {
+            $posts = Post::where( 'title', 'like', "%$request->search%" )->orWhere( 'description', 'like', "%$request->search%" )->paginate( $posts_count, ['*'], 'page', $page );
+        }
 
         return ! empty( $posts->items() ) ? response( $posts, 200 ) : response( $posts, 204 );
     }
@@ -112,8 +122,15 @@ class PostController extends Controller
      */
     public function user_search( Request $request, $posts_count, $page )
     {
+// var_dump( \Auth::user()->id );
 
-        $posts = Post::where( 'title', 'like', "%$request->search%" )->orWhere( 'description', 'like', "%$request->search%" )->where( 'author_id', '=', \Auth::user()->id )->paginate( $posts_count, ['*'], 'page', $page );
+        $posts = Post::where([
+            ['author_id', '=', \Auth::user()->id],
+            ['title', 'like', "%$request->search%"] 
+        ])->orWhere( [
+            ['author_id', '=', \Auth::user()->id],
+            ['description', 'like', "%$request->search%"] 
+        ])->paginate( $posts_count, ['*'], 'page', $page );
 
         return ! empty( $posts->items() ) ? response( $posts, 200 ) : response( $posts, 204 );
     }

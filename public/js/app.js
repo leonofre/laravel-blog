@@ -2615,7 +2615,7 @@ var user_token = USER_TOKEN;
       more_pages: false,
       pages: [],
       total: 0,
-      posts_number: 1,
+      posts_number: 12,
       search: '' === window.location.search ? '' : window.location.search.split('=').pop(),
       confirmation: false,
       default_image: APP_URL + '/images/default_image.png'
@@ -2644,7 +2644,6 @@ var user_token = USER_TOKEN;
         _this2.is_loading = false;
         _this2.total = response.data.total;
         _this2.per_page = response.data.per_page;
-        console.log(_this2.total);
 
         if (200 === response.status) {
           response.data.data.map(function (post, index) {
@@ -2662,7 +2661,6 @@ var user_token = USER_TOKEN;
     },
     paginationLinks: function paginationLinks() {
       this.pages = [];
-      console.log(this.per_page);
 
       if (this.total > this.per_page) {
         this.more_pages = true;
@@ -38741,7 +38739,7 @@ var render = function() {
       _vm._l(_vm.posts, function(post) {
         return _vm.has_posts
           ? _c("tr", { key: post.id, staticClass: "posts" }, [
-              _c("td", [_vm._v(_vm._s(post.id))]),
+              _c("td", [_vm._v(_vm._s(post.author_id))]),
               _vm._v(" "),
               _c("td", [_vm._v(_vm._s(post.title))]),
               _vm._v(" "),

@@ -13,7 +13,7 @@
 		</thead>
 		<tbody>
 			<tr v-if="has_posts" v-for="post in posts" v-bind:key="post.id" class="posts">
-				<td>{{ post.id }}</td>
+				<td>{{ post.author_id }}</td>
 				<td>{{ post.title }}</td>
 				<td>{{ post.excerpt }}</td>
 				<td><a :href="post.url"><i class="fas fa-pencil-alt"></i></a></td>
@@ -47,7 +47,7 @@
 				more_pages: false,
 				pages: [],
 				total: 0,
-				posts_number: 1,
+				posts_number: 12,
 				search: '' === window.location.search ? '' : window.location.search.split( '=' ).pop(),
 				confirmation: false,
 				default_image: APP_URL + '/images/default_image.png'
@@ -74,7 +74,6 @@
                     this.is_loading = false;
                     this.total     = response.data.total;
                     this.per_page  = response.data.per_page;
-                    console.log( this.total )
 
                     if ( 200 === response.status ) {
                         response.data.data.map( ( post, index ) => {
@@ -92,7 +91,6 @@
             },
 			paginationLinks: function() {
 				this.pages = [];
-					console.log( this.per_page );
 				if ( this.total > this.per_page ) {
 					this.more_pages = true;
 					var pages       = Math.ceil( this.total / this.per_page );
