@@ -2170,12 +2170,12 @@ var blog_url = APP_URL + '/blog';
         _this2.is_loaded = true;
         _this2.total = response.data.total;
         _this2.per_page = response.data.per_page;
-        response.data.data.map(function (post, index) {
-          response.data.data[index].url = APP_URL + '/blog/' + post.slug;
-        });
-        _this2.posts = response.data.data;
 
         if (200 === response.status) {
+          response.data.data.map(function (post, index) {
+            response.data.data[index].url = APP_URL + '/blog/' + post.slug;
+          });
+          _this2.posts = response.data.data;
           _this2.has_posts = true;
 
           _this2.paginationLinks();
@@ -2195,12 +2195,12 @@ var blog_url = APP_URL + '/blog';
         author: author
       }).then(function (response) {
         _this3.is_loaded = true;
-        response.data.data.map(function (post, index) {
-          response.data.data[index].url = APP_URL + '/blog/' + post.slug;
-        });
-        _this3.posts = response.data.data;
 
         if (200 === response.status) {
+          response.data.data.map(function (post, index) {
+            response.data.data[index].url = APP_URL + '/blog/' + post.slug;
+          });
+          _this3.posts = response.data.data;
           _this3.has_posts = true;
 
           _this3.paginationLinks();
