@@ -38,7 +38,7 @@
             <a href="{{ url('/blog') }}">Blog</a>
         </nav>
         <div class="links">
-            <a href="{{ url('/') }}">Laravel Blog</a>
+            <a href="{{ url('/') }}">Teste para Benfeitoria</a>
         </div>
 
         @if (Route::has('login'))

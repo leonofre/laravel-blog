@@ -1,3 +1,27 @@
-.form-filter {
-    
+.posts-filter {
+	position: fixed;
+	right: 20px;
+	.form-filter {
+	    padding: 20px;
+	    background-color: $primary-color;
+	    display: flex;
+	    flex-direction: column;
+	    justify-content: space-between;
+	    align-items: flex-end;
+	    p {
+	    	display: flex;
+		    flex-direction: column;
+		    justify-content: space-between;
+		    align-items: flex-end;
+		    width: 100%;
+		    label {
+		    	color: $post-text-color;
+		    }
+		    input,
+		    select {
+		    	width: 100%;
+		    	border-radius: 0;
+		    }
+	    }
+	}
 }

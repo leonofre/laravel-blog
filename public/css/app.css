@@ -17843,7 +17843,7 @@ header {
 }
 
 .posts-wrapper {
-  max-width: 60vw;
+  width: 60vw;
   padding-left: 20px;
   display: -webkit-box;
   display: flex;
@@ -17859,7 +17859,7 @@ header {
 }
 
 .posts-wrapper .posts .image-wrapper {
-  max-height: 200px;
+  height: 200px;
   display: -webkit-box;
   display: flex;
   -webkit-box-align: center;
@@ -17963,11 +17963,11 @@ header {
 }
 
 #navigation-links {
-  width: 100vw;
+  width: 100%;
 }
 
 #navigation-links .navigation-wrapper {
-  width: 100vw;
+  width: 100%;
   background-color: #00000085;
   display: -webkit-box;
   display: flex;
@@ -17998,6 +17998,48 @@ header {
   display: flex;
   -webkit-box-pack: justify;
           justify-content: space-between;
+}
+
+.posts-filter {
+  position: fixed;
+  right: 20px;
+}
+
+.posts-filter .form-filter {
+  padding: 20px;
+  background-color: #3f51b5;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: end;
+          align-items: flex-end;
+}
+
+.posts-filter .form-filter p {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: end;
+          align-items: flex-end;
+  width: 100%;
+}
+
+.posts-filter .form-filter p label {
+  color: #d4d4d4;
+}
+
+.posts-filter .form-filter p input,
+.posts-filter .form-filter p select {
+  width: 100%;
+  border-radius: 0;
 }
 
 .loader {

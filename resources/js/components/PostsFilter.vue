@@ -19,7 +19,7 @@
 				<input type="submit" value="Enviar">
 			</p>
 
-			<p>
+			<p class="error-wrapper">
 				<span v-for="error in errors">{{ error }}</span>
 			</p>
 		</form>
@@ -35,6 +35,8 @@
                 authors: [],
                 author: null,
                 is_loaded: false,
+                title: '' === window.location.search ? '' : window.location.search.split( '=' )[2].split( '&' )[0],
+                author: '' === window.location.search ? '0' : window.location.search.split( '=' ).pop(),
                 default_image: APP_URL + '/images/default_image.png'
             }
         },

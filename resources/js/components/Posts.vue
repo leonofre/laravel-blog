@@ -8,7 +8,7 @@
                 <div class="content">
                     <h2>{{ post.title }}</h2>
                     <p>{{ post.excerpt }}</p>
-                    <small>{{ post.author }}</small>
+                    <small>{{ post.author }} - {{ post.created_at }}</small>
                 </div>
             </a>
         </article>
@@ -45,7 +45,9 @@
                 ],
                 is_loaded: false,
                 has_posts: false,
-                page: '' === window.location.search ? 1 : parseInt( window.location.search.split( '=' ).pop() ),
+                page: '' === window.location.search ? 1 : parseInt( window.location.search.split( '=' )[1].split( '&' )[0] ),
+                search: '' === window.location.search ? '' : window.location.search.split( '=' )[2].split( '&' )[0],
+                author: '' === window.location.search ? '' : window.location.search.split( '=' ).pop(),
                 more_pages: false,
                 pages: [],
                 total: 0,
@@ -54,68 +56,52 @@
             }
         },
         mounted () {
-            this.getPosts();
+            console.log( this.search )
+            this.searchPosts();
         },
         created() {
             serverBus.$on( 'posts-filter', ( data ) => {
                 this.is_loaded = false;
-                this.searchPosts( data.title, data.author );
+                this.search = data.title;
+                this.author = data.author;
+                window.location.href = BLOG_URL + `?page=1&search=${this.search}&author=${this.author}`
             });
         },
         methods: {
-            getPosts: function() {
+            searchPosts: function() {
                 axios
-                  .get( API_URL + `posts/${this.posts_number}/${this.page}` )
-                  .then( response => {
-                    this.is_loaded = true
+                .post( API_URL + `posts/${this.posts_number}/${this.page}`, {
+                    search: this.search,
+                    author: this.author
+                })
+                .then( response => {
+                    this.is_loaded = true;
                     this.total     = response.data.total;
                     this.per_page  = response.data.per_page;
 
                     if ( 200 === response.status ) {
-
                         response.data.data.map( ( post, index ) => {
-                            response.data.data[ index ].url = APP_URL + '/blog/' + post.slug;
+                            response.data.data[ index ].url = BLOG_URL + `/${post.slug}`;
                         });
 
                         this.posts     = response.data.data;
                         this.has_posts = true;
-                        this.paginationLinks();
                     } else {
                         this.posts     = [{}];
                         this.has_posts = false;
                     }
-                })
-            },
-            searchPosts: function( search = '', author = 0 ) {
-                axios
-                .post( API_URL + `posts/${this.posts_number}/${this.page}`, {
-                    search: search,
-                    author: author
-                })
-                .then( response => {
-                    this.is_loaded = true
-
-                    if ( 200 === response.status ) {
-                        response.data.data.map( ( post, index ) => {
-                            response.data.data[ index ].url = APP_URL + '/blog/' + post.slug;
-                        });
-
-                        this.posts     = response.data.data;
-                        this.has_posts = true;
-                        this.paginationLinks();
-                    } else {
-                        this.posts     = [{}];
-                        this.has_posts = false;
-                    }
+                    this.paginationLinks();
                 })
             },
             paginationLinks: function() {
-                if ( this.total > this.posts_number ) {
+                this.pages = [];
+                    console.log( this.per_page );
+                if ( this.total > this.per_page ) {
                     this.more_pages = true;
-                    var pages = Math.ceil( this.total / this.per_page );
+                    var pages       = Math.ceil( this.total / this.per_page );
                     for ( var i = 1; i <= pages; i++ ) {
                         this.pages.push({
-                            link: BLOG_URL + `?page=${i}`,
+                            link: BLOG_URL + `?page=${i}&search=${this.search}&author=${this.author}`,
                             number: i,
                             current: i === this.page ? 'current navigation-link' : 'navigation-link'
                         });

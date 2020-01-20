@@ -22,8 +22,10 @@ Route::get('/posts/{posts_count}/{page}', 'PostController@index' );
 Route::post('/posts/{posts_count}/{page}', 'PostController@search' );
 
 Route::middleware('auth:api')->get('/user/posts/{posts_count}/{page}', 'PostController@user_posts' );
+Route::middleware('auth:api')->post('/user/posts/{posts_count}/{page}', 'PostController@user_search' );
 Route::middleware('auth:api')->get('/user/post/{id}', 'PostController@user_post' );
 Route::middleware('auth:api')->post('/user/post', 'PostController@store' );
 Route::middleware('auth:api')->post('/user/post/{id}', 'PostController@update' );
+Route::middleware('auth:api')->delete('/user/post/{id}', 'PostController@destroy' );
 
 Route::get('/authors', 'AuthorController@index' );

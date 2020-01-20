@@ -11,8 +11,6 @@
 
         <posts-loop class="card-body" id="user-posts">
         </posts-loop>
-        <navigation-links id="navigation-links">
-        </navigation-links>
 	</div>
 </template>
 <script>
@@ -28,7 +26,7 @@
 				more_pages: false,
 				pages: [],
 				total: 0,
-				search: null,
+				search: '' === window.location.search ? '' : window.location.search.split( '=' ).pop(),
 				home_url: HOME_URL,
 				create_post_url: HOME_URL + '/post',
 				posts_number: 1,
@@ -38,6 +36,19 @@
 		methods: {
 			getPosts: function( event ) {
 				event.preventDefault();
+
+				if ( this.search ) {
+					var data = {
+						search : this.search,
+					};
+
+					serverBus.$emit( 'user-posts-filter', data );
+					return true;
+				}
+
+				this.errors = [];
+
+				this.errors.push( 'Preencha o campo de busca.' );
 			}
 		}
 	}
