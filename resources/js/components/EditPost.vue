@@ -98,6 +98,7 @@
 					image_size: this.image_size
 				})
 				.then( response => {
+					var vm = this;
 					this.is_loading = false
 
 					this.posts = response.data;
@@ -109,8 +110,7 @@
 					}
 
 					setTimeout( function() {
-						console.log( this.message )
-						this.message = false;
+						vm.message = false;
 					}, 3000 );
 				})
 			}

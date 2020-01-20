@@ -10,9 +10,9 @@
                     background-color: $dropdown-bgcolor;
                     .navbar-nav {
                         padding-right: 30px;
-                        .nav-item {
+                        > .nav-item {
                             text-align: right;
-                            a {
+                            > a {
                                 color: $dropdown-color;
                             }
                         }
