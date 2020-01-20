@@ -31,8 +31,6 @@
 </template>
 <script>
     import { serverBus } from '../blog';
-    const api_url    = APP_URL + '/api/';
-    const blog_url   = APP_URL + '/blog';
     const user_token = USER_TOKEN;
     export default {
         data () {
@@ -54,7 +52,7 @@
         methods: {
             getPost: function() {
                 axios
-                .get( api_url + `user/post/${this.id}?api_token=${user_token}`)
+                .get( API_URL + `user/post/${this.id}?api_token=${user_token}`)
                 .then( response => {
                     
                     this.post = response.data;
@@ -71,7 +69,6 @@
             uploadImage: function( event ) {
                 var files = event.target.files || event.dataTransfer.files;
 
-                console.log( files );
                 if ( ! files.length ) {
                     return;
                 }
@@ -92,7 +89,7 @@
                 event.preventDefault();
 
                 axios
-                .post( api_url + `user/post/${this.post.id}`, {
+                .post( API_URL + `user/post/${this.post.id}`, {
                     post: this.post,
                     api_token: user_token,
                     image_name: this.image_name,

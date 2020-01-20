@@ -1,5 +1,5 @@
 <template>
-    <div v-if="is_loaded">
+    <div>
         <div class="card-header">{{ post.title }}</div>
         <form v-bind:key="post.id" @submit="this.updatePost" class="post">
             <div class="form-row">
@@ -25,23 +25,18 @@
             </div>
         </form>
     </div>
-    <div v-else>
-        <div class="loader">
-            <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
-        </div>
-    </div>
 </template>
 <script>
     import { serverBus } from '../blog';
-    const api_url    = APP_URL + '/api/';
-    const blog_url   = APP_URL + '/blog';
     const user_token = USER_TOKEN;
     export default {
         data () {
             return {
-                post: {},
-                is_loaded: false,
-                title: null,
+                post: {
+                    image: null,
+                    title: null,
+                    description: null,
+                },
                 errors: [],
                 image_name: '',
                 image_size: 0,
@@ -50,30 +45,10 @@
                 message: false,
             }
         },
-        mounted () {
-            this.getPost();
-        },
         methods: {
-            getPost: function() {
-                axios
-                .get( api_url + `user/post/${this.id}?api_token=${user_token}`)
-                .then( response => {
-                    
-                    this.post = response.data;
-
-                    if ( 200 === response.status ) {
-                        this.is_loaded = true
-                    } else {
-                        this.posts     = [{}];
-                        this.has_posts = false;
-                        window.location.href = APP_URL + '/404';
-                    }
-                })
-            },
             uploadImage: function( event ) {
                 var files = event.target.files || event.dataTransfer.files;
 
-                console.log( files );
                 if ( ! files.length ) {
                     return;
                 }
@@ -86,6 +61,7 @@
                 let reader = new FileReader();
                 reader.onload = ( event ) => {
                     this.post.image = event.target.result;
+                console.log( this.post.image );
                 };
                 reader.readAsDataURL( file );
 
@@ -94,7 +70,7 @@
                 event.preventDefault();
 
                 axios
-                .post( api_url + `user/post/${this.post.id}`, {
+                .post( API_URL + `user/post`, {
                     post: this.post,
                     api_token: user_token,
                     image_name: this.image_name,
@@ -106,9 +82,9 @@
                     this.posts = response.data;
 
                     if ( 200 === response.status ) {
-                        this.message     = 'Post atualizado com sucesso.';
+                        window.location.href = HOME_URL + '/post/' + this.posts.id;
                     } else {
-                        this.message     = 'Erro ao atualizar o post, tente novamente.';
+                        this.message     = 'Erro ao criar o post, tente novamente.';
                     }
                 })
             }

@@ -27,7 +27,6 @@
 </template>
 <script>
 	import { serverBus } from '../blog';
-	const api_url = APP_URL + '/api/';
 	export default {
 		data () {
             return {
@@ -63,7 +62,7 @@
 			},
 			getAuthors: function() {
 				axios
-                .get( api_url + `authors` )
+                .get( API_URL + `authors` )
                 .then( response => {
                     this.is_loaded = true
 

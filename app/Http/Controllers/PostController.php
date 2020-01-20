@@ -23,35 +23,6 @@ class PostController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store( Request $request )
-    {
-        $request->validate([
-            'title' => 'required',
-            'description' => 'required',
-            'image' => 'required',
-        ]);
-  
-        $response = Post::create( $request->all() );
-   
-        return $response;
-    }
-
-    /**
      * Display the filtered resource.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -131,6 +102,61 @@ class PostController extends Controller
         return response( $post, 200 );
     }
 
+     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store( Request $request )
+    {
+        $is_valid = $request->validate([
+            'image_size'       => 'numeric|max:4096000|min:1',
+            'post.title'       => 'required',
+            'post.description' => 'required',
+        ]);
+
+        if ( ! $is_valid ) {
+            return response( $is_valid->errors(), 500 );
+        }
+
+
+        $post_data            = $request->post;
+        $post_data['excerpt'] = strip_tags( Str::words( $post_data['description'], 15 ) );
+        $slug                 = Str::slug( $post_data['title'], '-' );
+        $count                = 0;
+
+        while ( Post::where( 'slug', '=', $slug )->first() ) {
+            $slug  = $slug . "-$count";
+            $count++;
+        }
+        
+        $post_data['slug']    = $slug;
+        $post_data['author']  = \Auth::user()->name;
+        $post_data['author_id']  = \Auth::user()->id;
+        
+        if ( $request->image_name ) {
+            $image_name           = explode( '.', $request->image_name );
+            $image_name           = $image_name[0] . '-' . now() . ".$image_name[1]";
+            $path                 = public_path(). "/images/$image_name";
+            $link                 = url( '/' ). "/images/$image_name";
+            try{
+                $post_data['image']   = $link;
+                $image                = $request->post['image'];
+                $image                = str_replace( 'data:image/png;base64,', '', $image );
+                $image                = str_replace( ' ', '+', $image );
+                $file                 = \File::put( $path, base64_decode( $image ) );
+            } catch( \FileException $e ) {
+                return response( $e, 500 );
+            }
+        }
+
+        $post = Post::create( $post_data );
+  
+
+        return response( $post, 200 );
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -148,7 +174,7 @@ class PostController extends Controller
         ]);
 
         if ( ! $is_valid ) {
-        	var_dump( $is_valid );
+        	return response( $is_valid->errors(), 500 );
         }
 
 

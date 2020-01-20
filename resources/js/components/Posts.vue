@@ -34,8 +34,6 @@
 </template>
 <script>
     import { serverBus } from '../blog';
-    const api_url  = APP_URL + '/api/';
-    const blog_url = APP_URL + '/blog';
     export default {
         data () {
             return {
@@ -67,7 +65,7 @@
         methods: {
             getPosts: function() {
                 axios
-                  .get( api_url + `posts/${this.posts_number}/${this.page}` )
+                  .get( API_URL + `posts/${this.posts_number}/${this.page}` )
                   .then( response => {
                     this.is_loaded = true
                     this.total     = response.data.total;
@@ -90,7 +88,7 @@
             },
             searchPosts: function( search = '', author = 0 ) {
                 axios
-                .post( api_url + `posts/${this.posts_number}/${this.page}`, {
+                .post( API_URL + `posts/${this.posts_number}/${this.page}`, {
                     search: search,
                     author: author
                 })
@@ -117,7 +115,7 @@
                     var pages = Math.ceil( this.total / this.per_page );
                     for ( var i = 1; i <= pages; i++ ) {
                         this.pages.push({
-                            link: blog_url + `?page=${i}`,
+                            link: BLOG_URL + `?page=${i}`,
                             number: i,
                             current: i === this.page ? 'current navigation-link' : 'navigation-link'
                         });
