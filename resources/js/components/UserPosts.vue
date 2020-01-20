@@ -49,7 +49,7 @@
                 more_pages: false,
                 pages: [],
                 total: 0,
-                posts_number: 12,
+                posts_number: 1,
                 default_image: APP_URL + '/images/default_image.png'
             }
         },

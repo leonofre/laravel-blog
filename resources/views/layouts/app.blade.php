@@ -31,7 +31,7 @@
 </head>
 <body>
     <header class="container-full flex-center position-ref">
-        <nav class="nav-left links">
+        <nav class="top-left links">
             <a href="{{ url('/blog') }}">Blog</a>
         </nav>
         <div class="links">

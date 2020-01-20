@@ -8,8 +8,14 @@
         width: 48%;
         margin-bottom: 20px;
         position: relative;
-        img {
-            width: 100%;
+        .image-wrapper {
+            max-height: 200px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            img {
+                width: 100%;
+            }
         }
         .content {
             padding: 20px;

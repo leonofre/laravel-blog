@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Post;
 use Illuminate\Routing\Route;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -139,35 +140,43 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $image = $request->post['image'];  // your base64 encoded
-        // $image = str_replace( 'data:image/png;base64,', '', $image );
-        // $image = str_replace( ' ', '+', $image );
-        $image_name = $request->image_name;
-        $path = '/images/' . $image_name;
-        // $file =Image::make( file_get_contents( $data->base64_image ) )->save( $path );
 
-        if ( preg_match( '/^data:image\/(\w+);base64,/', $image ) ) {
-		    $data = substr( $image, strpos( $image, ',' ) + 1 );
+        $is_valid = $request->validate([
+            'image_size'       => 'numeric|max:4096000',
+            'post.title'       => 'required',
+            'post.description' => 'required',
+        ]);
 
-		    $data = base64_decode( $data );
-		    $file = \Storage::disk( 'public' )->put( $path, $data);
-        	var_dump( $file );
-		}
-    	// $file->move( public_path('uploads'), $request->image_name );
+        if ( ! $is_valid ) {
+        	var_dump( $is_valid );
+        }
 
-    	var_dump( $request->post['image'] );
-        return 'ok';
-        // $request->validate([
-        //     'file' => 'required|mimes:pdf,xlx,csv|max:2048',
-        // ]);
+
+        $post_data            = $request->post;
+        $post_data['excerpt'] = strip_tags( Str::words( $post_data['description'], 15 ) );
+        
+        if ( $request->image_name ) {
+	        $image_name           = explode( '.', $request->image_name );
+	        $image_name           = $image_name[0] . '-' . now() . ".$image_name[1]";
+	        $path                 = public_path(). "/images/$image_name";
+	        $link                 = url( '/' ). "/images/$image_name";
+	        try{
+	        	$post_data['image']   = $link;
+		        $image                = $request->post['image'];
+		        $image                = str_replace( 'data:image/png;base64,', '', $image );
+		        $image                = str_replace( ' ', '+', $image );
+		        $file                 = \File::put( $path, base64_decode( $image ) );
+	        } catch( \FileException $e ) {
+	        	return response( $e, 500 );
+	        }
+        }
+
+
+        $post = Post::find( $request->post['id'] );
+        $post->update( $post_data );
   
-        // $fileName = time().'.'.$request->file->extension();  
-   
-        // $request->file->move(public_path('uploads'), $fileName);
-   
-        // return back()
-        //     ->with( 'success','You have successfully upload file.' )
-        //     ->with( 'file',$fileName );
+
+        return response( $post, 200 );
     }
 
     /**

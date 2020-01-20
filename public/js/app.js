@@ -1980,7 +1980,8 @@ var user_token = USER_TOKEN;
       image_name: '',
       image_size: 0,
       id: window.location.pathname.split('/').pop(),
-      default_image: APP_URL + '/images/default_image.png'
+      default_image: APP_URL + '/images/default_image.png',
+      message: false
     };
   },
   mounted: function mounted() {
@@ -2032,22 +2033,16 @@ var user_token = USER_TOKEN;
       axios.post(api_url + "user/post/".concat(this.post.id), {
         post: this.post,
         api_token: user_token,
-        file_name: this.image_name,
-        file_size: this.image_size
+        image_name: this.image_name,
+        image_size: this.image_size
       }).then(function (response) {
         _this3.is_loaded = true;
-        response.data.data.map(function (post, index) {
-          response.data.data[index].url = APP_URL + '/blog/' + post.slug;
-        });
-        _this3.posts = response.data.data;
+        _this3.posts = response.data;
 
         if (200 === response.status) {
-          _this3.has_posts = true;
-
-          _this3.paginationLinks();
+          _this3.message = 'Post atualizado com sucesso.';
         } else {
-          _this3.posts = [{}];
-          _this3.has_posts = false;
+          _this3.message = 'Erro ao atualizar o post, tente novamente.';
         }
       });
     }
@@ -2104,6 +2099,10 @@ var api_url = APP_URL + '/api/';
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _blog__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../blog */ "./resources/js/blog.js");
+//
+//
+//
+//
 //
 //
 //
@@ -2466,7 +2465,7 @@ var user_token = USER_TOKEN;
       more_pages: false,
       pages: [],
       total: 0,
-      posts_number: 12,
+      posts_number: 1,
       default_image: APP_URL + '/images/default_image.png'
     };
   },
@@ -37965,18 +37964,11 @@ var render = function() {
               _c("img", { attrs: { src: _vm.post.image, alt: "" } })
             ]),
             _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "form-row" },
-              [
-                _c("input", { attrs: { type: "submit", value: "Enviar" } }),
-                _vm._v(" "),
-                _vm._l(_vm.errors, function(error) {
-                  return _c("span", [_vm._v(_vm._s(error))])
-                })
-              ],
-              2
-            )
+            _c("div", { staticClass: "form-row" }, [
+              _c("input", { attrs: { type: "submit", value: "Enviar" } }),
+              _vm._v(" "),
+              _vm.message ? _c("span", [_vm._v(_vm._s(_vm.message))]) : _vm._e()
+            ])
           ]
         )
       ])
@@ -38064,7 +38056,9 @@ var render = function() {
           return _vm.has_posts
             ? _c("article", { key: post.id, staticClass: "posts" }, [
                 _c("a", { attrs: { href: post.url } }, [
-                  _c("img", { attrs: { src: post.image, alt: "" } }),
+                  _c("div", { staticClass: "image-wrapper" }, [
+                    _c("img", { attrs: { src: post.image, alt: "" } })
+                  ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "content" }, [
                     _c("h2", [_vm._v(_vm._s(post.title))]),
@@ -38085,7 +38079,9 @@ var render = function() {
           return _c("article", { key: post.id, staticClass: "posts" }, [
             _vm._m(0, true),
             _vm._v(" "),
-            _c("img", { attrs: { src: _vm.default_image, alt: "" } }),
+            _c("div", { staticClass: "image-wrapper" }, [
+              _c("img", { attrs: { src: _vm.default_image, alt: "" } })
+            ]),
             _vm._v(" "),
             _vm._m(1, true)
           ])

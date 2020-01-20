@@ -21,7 +21,7 @@
             </div>
             <div class="form-row">
                     <input type="submit" value="Enviar">
-                    <span v-for="error in errors">{{ error }}</span>
+                    <span v-if="message">{{ message }}</span>
             </div>
         </form>
     </div>
@@ -46,7 +46,8 @@
                 image_name: '',
                 image_size: 0,
                 id: window.location.pathname.split( '/' ).pop(),
-                default_image: APP_URL + '/images/default_image.png'
+                default_image: APP_URL + '/images/default_image.png',
+                message: false,
             }
         },
         mounted () {
@@ -96,23 +97,18 @@
                 .post( api_url + `user/post/${this.post.id}`, {
                     post: this.post,
                     api_token: user_token,
-                    file_name: this.image_name,
-                    file_size: this.image_size
+                    image_name: this.image_name,
+                    image_size: this.image_size
                 })
                 .then( response => {
                     this.is_loaded = true
-                    response.data.data.map( ( post, index ) => {
-                        response.data.data[ index ].url = APP_URL + '/blog/' + post.slug;
-                    });
 
-                    this.posts = response.data.data;
+                    this.posts = response.data;
 
                     if ( 200 === response.status ) {
-                        this.has_posts = true;
-                        this.paginationLinks();
+                        this.message     = 'Post atualizado com sucesso.';
                     } else {
-                        this.posts     = [{}];
-                        this.has_posts = false;
+                        this.message     = 'Erro ao atualizar o post, tente novamente.';
                     }
                 })
             }

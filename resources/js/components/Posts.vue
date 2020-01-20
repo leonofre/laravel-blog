@@ -2,7 +2,9 @@
     <div v-if="is_loaded">
         <article v-if="has_posts" v-for="post in posts" v-bind:key="post.id" class="posts">
             <a :href="post.url">
-                <img :src="post.image" alt="">
+                <div class="image-wrapper">
+                    <img :src="post.image" alt="">
+                </div>
                 <div class="content">
                     <h2>{{ post.title }}</h2>
                     <p>{{ post.excerpt }}</p>
@@ -19,7 +21,9 @@
             <div class="loader">
                 <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
             </div>
-            <img :src="default_image" alt="">
+            <div class="image-wrapper">
+                <img :src="default_image" alt="">
+            </div>
             <div class="content">
                 <h2>Post Title</h2>
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur, similique fugit quod commodi, deserunt.</p>

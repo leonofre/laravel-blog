@@ -17858,7 +17858,16 @@ header {
   position: relative;
 }
 
-.posts-wrapper .posts img {
+.posts-wrapper .posts .image-wrapper {
+  max-height: 200px;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-align: center;
+          align-items: center;
+  overflow: hidden;
+}
+
+.posts-wrapper .posts .image-wrapper img {
   width: 100%;
 }
 
