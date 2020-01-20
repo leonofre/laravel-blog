@@ -7,6 +7,26 @@
         justify-content: space-between;
         flex-wrap: wrap;
     }
+    header {
+        min-height: 60px;
+        .navbar {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            .navbar-collapse {
+                .navbar-nav {
+                    display: flex;
+                    justify-content: space-between;
+                    width: 100%;
+                    .dropdown-menu {
+                        position: absolute;
+                        right: 0;
+                        left: auto;
+                    }
+                }
+            }
+        }
+    }
 }
 
 // Estilos padrão do Laravel
@@ -19,9 +39,6 @@ html, body {
     margin: 0;
 }
 
-header {
-    min-height: 60px;
-}
 
 .container-full {
     width: 100vw;

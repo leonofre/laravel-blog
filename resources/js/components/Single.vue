@@ -7,7 +7,7 @@
             </div>
             <div class="content">
                 <div v-html="post.description"></div>
-                <strong><small>{{ post.author }} - {{ post.created_at }}</small></strong>
+                <small><strong>{{ post.author }} - {{ post.created_at }}</strong></small>
             </div>
             <nav class="navigation-wrapper">
                 <a class="navigation-link" :href="post.prev_link"><span v-if="post.prev_name"><i class="fas fa-arrow-circle-left"></i> Anterior</span></a>
@@ -26,7 +26,7 @@
             </div>
             <div class="content">
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur, similique fugit quod commodi, deserunt.</p>
-                <strong><small>Post Author</small></strong>
+                <small><strong>Post Author</strong></small>
             </div>
         </article>
     </div>
