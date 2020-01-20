@@ -2140,6 +2140,7 @@ var user_token = USER_TOKEN;
         image_name: this.image_name,
         image_size: this.image_size
       }).then(function (response) {
+        var vm = _this3;
         _this3.is_loading = false;
         _this3.posts = response.data;
 
@@ -2150,8 +2151,7 @@ var user_token = USER_TOKEN;
         }
 
         setTimeout(function () {
-          console.log(this.message);
-          this.message = false;
+          vm.message = false;
         }, 3000);
       });
     }
@@ -51072,7 +51072,7 @@ module.exports = function(module) {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-throw new Error("Module build failed (from ./node_modules/css-loader/index.js):\nModuleBuildError: Module build failed (from ./node_modules/sass-loader/dist/cjs.js):\n\n\t.form-row {\n ^\n      Expected digit.\n   ╷\n67 │     .form-row {\n   │      ^\n   ╵\n  public/sass/forms.scss 67:3  @import\n  stdin 29:9                   root stylesheet\n      in /home/vagrant/code/public/sass/forms.scss (line 67, column 3)\n    at /home/vagrant/code/node_modules/webpack/lib/NormalModule.js:316:20\n    at /home/vagrant/code/node_modules/loader-runner/lib/LoaderRunner.js:367:11\n    at /home/vagrant/code/node_modules/loader-runner/lib/LoaderRunner.js:233:18\n    at context.callback (/home/vagrant/code/node_modules/loader-runner/lib/LoaderRunner.js:111:13)\n    at /home/vagrant/code/node_modules/sass-loader/dist/index.js:89:7\n    at Function.call$2 (/home/vagrant/code/node_modules/sass/sass.dart.js:55844:16)\n    at _render_closure1.call$2 (/home/vagrant/code/node_modules/sass/sass.dart.js:34348:12)\n    at _RootZone.runBinary$3$3 (/home/vagrant/code/node_modules/sass/sass.dart.js:20161:18)\n    at _RootZone.runBinary$3 (/home/vagrant/code/node_modules/sass/sass.dart.js:20165:19)\n    at _FutureListener.handleError$1 (/home/vagrant/code/node_modules/sass/sass.dart.js:18630:19)\n    at _Future__propagateToListeners_handleError.call$0 (/home/vagrant/code/node_modules/sass/sass.dart.js:18918:40)\n    at Object._Future__propagateToListeners (/home/vagrant/code/node_modules/sass/sass.dart.js:3500:88)\n    at _Future._completeError$2 (/home/vagrant/code/node_modules/sass/sass.dart.js:18754:9)\n    at _AsyncAwaitCompleter.completeError$2 (/home/vagrant/code/node_modules/sass/sass.dart.js:18153:12)\n    at Object._asyncRethrow (/home/vagrant/code/node_modules/sass/sass.dart.js:3256:17)\n    at /home/vagrant/code/node_modules/sass/sass.dart.js:10608:20\n    at _wrapJsFunctionForAsync_closure.$protected (/home/vagrant/code/node_modules/sass/sass.dart.js:3279:15)\n    at _wrapJsFunctionForAsync_closure.call$2 (/home/vagrant/code/node_modules/sass/sass.dart.js:18174:12)\n    at _awaitOnObject_closure0.call$2 (/home/vagrant/code/node_modules/sass/sass.dart.js:18166:25)\n    at _RootZone.runBinary$3$3 (/home/vagrant/code/node_modules/sass/sass.dart.js:20161:18)\n    at _RootZone.runBinary$3 (/home/vagrant/code/node_modules/sass/sass.dart.js:20165:19)\n    at _FutureListener.handleError$1 (/home/vagrant/code/node_modules/sass/sass.dart.js:18630:19)\n    at _Future__propagateToListeners_handleError.call$0 (/home/vagrant/code/node_modules/sass/sass.dart.js:18918:40)\n    at Object._Future__propagateToListeners (/home/vagrant/code/node_modules/sass/sass.dart.js:3500:88)\n    at _Future._completeError$2 (/home/vagrant/code/node_modules/sass/sass.dart.js:18754:9)\n    at _AsyncAwaitCompleter.completeError$2 (/home/vagrant/code/node_modules/sass/sass.dart.js:18153:12)\n    at Object._asyncRethrow (/home/vagrant/code/node_modules/sass/sass.dart.js:3256:17)\n    at /home/vagrant/code/node_modules/sass/sass.dart.js:12499:20\n    at _wrapJsFunctionForAsync_closure.$protected (/home/vagrant/code/node_modules/sass/sass.dart.js:3279:15)\n    at _wrapJsFunctionForAsync_closure.call$2 (/home/vagrant/code/node_modules/sass/sass.dart.js:18174:12)\n    at _awaitOnObject_closure0.call$2 (/home/vagrant/code/node_modules/sass/sass.dart.js:18166:25)\n    at _RootZone.runBinary$3$3 (/home/vagrant/code/node_modules/sass/sass.dart.js:20161:18)\n    at _RootZone.runBinary$3 (/home/vagrant/code/node_modules/sass/sass.dart.js:20165:19)\n    at _FutureListener.handleError$1 (/home/vagrant/code/node_modules/sass/sass.dart.js:18630:19)\n    at _Future__propagateToListeners_handleError.call$0 (/home/vagrant/code/node_modules/sass/sass.dart.js:18918:40)\n    at Object._Future__propagateToListeners (/home/vagrant/code/node_modules/sass/sass.dart.js:3500:88)");
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 

@@ -3,4 +3,15 @@
 		position: relative;
 		width: 100vw;
 	}
+	.post {
+		.form-row {
+			.editr--toolbar {
+				height: 74px;
+			    flex-wrap: wrap;
+			    a.vw-btn-separator {
+			    	opacity: 0;
+			    }
+			}
+		}
+	}
 }
