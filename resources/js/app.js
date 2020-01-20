@@ -26,3 +26,7 @@ if ( 'home' === ROUTE ) {
 if ( 'edit-post' === ROUTE ) {
 	require( './edit-post' );
 }
+
+if ( 'create-post' === ROUTE ) {
+	require( './create-post' );
+}

@@ -23,6 +23,7 @@ Route::post('/posts/{posts_count}/{page}', 'PostController@search' );
 
 Route::middleware('auth:api')->get('/user/posts/{posts_count}/{page}', 'PostController@user_posts' );
 Route::middleware('auth:api')->get('/user/post/{id}', 'PostController@user_post' );
+Route::middleware('auth:api')->post('/user/post', 'PostController@store' );
 Route::middleware('auth:api')->post('/user/post/{id}', 'PostController@update' );
 
 Route::get('/authors', 'AuthorController@index' );
