@@ -70,16 +70,16 @@
                   .get( api_url + `posts/${this.posts_number}/${this.page}` )
                   .then( response => {
                     this.is_loaded = true
-                    this.total    = response.data.total;
-                    this.per_page = response.data.per_page;
-
-                    response.data.data.map( ( post, index ) => {
-                        response.data.data[ index ].url = APP_URL + '/blog/' + post.slug;
-                    });
-
-                    this.posts = response.data.data;
+                    this.total     = response.data.total;
+                    this.per_page  = response.data.per_page;
 
                     if ( 200 === response.status ) {
+
+                        response.data.data.map( ( post, index ) => {
+                            response.data.data[ index ].url = APP_URL + '/blog/' + post.slug;
+                        });
+
+                        this.posts     = response.data.data;
                         this.has_posts = true;
                         this.paginationLinks();
                     } else {
@@ -96,13 +96,13 @@
                 })
                 .then( response => {
                     this.is_loaded = true
-                    response.data.data.map( ( post, index ) => {
-                        response.data.data[ index ].url = APP_URL + '/blog/' + post.slug;
-                    });
-
-                    this.posts = response.data.data;
 
                     if ( 200 === response.status ) {
+                        response.data.data.map( ( post, index ) => {
+                            response.data.data[ index ].url = APP_URL + '/blog/' + post.slug;
+                        });
+
+                        this.posts     = response.data.data;
                         this.has_posts = true;
                         this.paginationLinks();
                     } else {
