@@ -9,7 +9,7 @@
         margin-bottom: 20px;
         position: relative;
         .image-wrapper {
-            max-height: 200px;
+            height: 200px;
             display: flex;
             align-items: center;
             overflow: hidden;
@@ -93,9 +93,9 @@
     }
 }
 #navigation-links {
-    width: 100vw;
+    width: 100%;
     .navigation-wrapper {
-        width: 100vw;
+        width: 100%;
         background-color: $background-oppacity-color;
         display: flex;
         justify-content: space-around;

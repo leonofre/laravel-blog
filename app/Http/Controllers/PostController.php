@@ -32,7 +32,7 @@ class PostController extends Controller
      */
     public function search( Request $request, $posts_count, $page )
     {
-    	$posts = Post::where( 'title', 'like', "%$request->search%" )->where( 'description', 'like', "%$request->search%" )->where( 'author_id', '=', $request->author )->paginate( $posts_count, ['*'], 'page', $page );
+    	$posts = Post::where( 'title', 'like', "%$request->search%" )->orWhere( 'description', 'like', "%$request->search%" )->where( 'author_id', '=', $request->author )->paginate( $posts_count, ['*'], 'page', $page );
 
         return ! empty( $posts->items() ) ? response( $posts, 200 ) : response( $posts, 204 );
     }
@@ -102,6 +102,22 @@ class PostController extends Controller
         return response( $post, 200 );
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $posts_count
+     * @param  int  $page
+     * @return \Illuminate\Http\Response
+     */
+    public function user_search( Request $request, $posts_count, $page )
+    {
+
+        $posts = Post::where( 'title', 'like', "%$request->search%" )->orWhere( 'description', 'like', "%$request->search%" )->where( 'author_id', '=', \Auth::user()->id )->paginate( $posts_count, ['*'], 'page', $page );
+
+        return ! empty( $posts->items() ) ? response( $posts, 200 ) : response( $posts, 204 );
+    }
+
      /**
      * Store a newly created resource in storage.
      *
@@ -164,7 +180,7 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update( Request $request, $id )
     {
 
         $is_valid = $request->validate([
@@ -211,8 +227,10 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy( $id )
     {
-        //
+        $post = Post::where( 'id', $id )->delete();
+
+        return response( $post, 200 );
     }
 }

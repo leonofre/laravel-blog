@@ -17859,7 +17859,7 @@ header {
 }
 
 .posts-wrapper .posts .image-wrapper {
-  max-height: 200px;
+  height: 200px;
   display: -webkit-box;
   display: flex;
   -webkit-box-align: center;
@@ -17963,11 +17963,11 @@ header {
 }
 
 #navigation-links {
-  width: 100vw;
+  width: 100%;
 }
 
 #navigation-links .navigation-wrapper {
-  width: 100vw;
+  width: 100%;
   background-color: #00000085;
   display: -webkit-box;
   display: flex;

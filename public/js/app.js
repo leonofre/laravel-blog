@@ -2239,7 +2239,9 @@ __webpack_require__.r(__webpack_exports__);
       posts: [{}, {}, {}, {}],
       is_loaded: false,
       has_posts: false,
-      page: '' === window.location.search ? 1 : parseInt(window.location.search.split('=').pop()),
+      page: '' === window.location.search ? 1 : parseInt(window.location.search.split('=')[1].split('&')[0]),
+      search: '' === window.location.search ? '' : window.location.search.split('=')[2].split('&')[0],
+      author: '' === window.location.search ? '' : window.location.search.split('=').pop(),
       more_pages: false,
       pages: [],
       total: 0,
@@ -2248,73 +2250,56 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    this.getPosts();
+    console.log(this.search);
+    this.searchPosts();
   },
   created: function created() {
     var _this = this;
 
     _blog__WEBPACK_IMPORTED_MODULE_0__["serverBus"].$on('posts-filter', function (data) {
       _this.is_loaded = false;
-
-      _this.searchPosts(data.title, data.author);
+      _this.search = data.title;
+      _this.author = data.author;
+      window.location.href = BLOG_URL + "?page=1&search=".concat(_this.search, "&author=").concat(_this.author);
     });
   },
   methods: {
-    getPosts: function getPosts() {
+    searchPosts: function searchPosts() {
       var _this2 = this;
 
-      axios.get(API_URL + "posts/".concat(this.posts_number, "/").concat(this.page)).then(function (response) {
+      axios.post(API_URL + "posts/".concat(this.posts_number, "/").concat(this.page), {
+        search: this.search,
+        author: this.author
+      }).then(function (response) {
         _this2.is_loaded = true;
         _this2.total = response.data.total;
         _this2.per_page = response.data.per_page;
 
         if (200 === response.status) {
           response.data.data.map(function (post, index) {
-            response.data.data[index].url = APP_URL + '/blog/' + post.slug;
+            response.data.data[index].url = BLOG_URL + "/post.slug";
           });
           _this2.posts = response.data.data;
           _this2.has_posts = true;
-
-          _this2.paginationLinks();
         } else {
           _this2.posts = [{}];
           _this2.has_posts = false;
         }
-      });
-    },
-    searchPosts: function searchPosts() {
-      var _this3 = this;
 
-      var search = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-      var author = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-      axios.post(API_URL + "posts/".concat(this.posts_number, "/").concat(this.page), {
-        search: search,
-        author: author
-      }).then(function (response) {
-        _this3.is_loaded = true;
-
-        if (200 === response.status) {
-          response.data.data.map(function (post, index) {
-            response.data.data[index].url = APP_URL + '/blog/' + post.slug;
-          });
-          _this3.posts = response.data.data;
-          _this3.has_posts = true;
-
-          _this3.paginationLinks();
-        } else {
-          _this3.posts = [{}];
-          _this3.has_posts = false;
-        }
+        _this2.paginationLinks();
       });
     },
     paginationLinks: function paginationLinks() {
-      if (this.total > this.posts_number) {
+      this.pages = [];
+      console.log(this.per_page);
+
+      if (this.total > this.per_page) {
         this.more_pages = true;
         var pages = Math.ceil(this.total / this.per_page);
 
         for (var i = 1; i <= pages; i++) {
           this.pages.push({
-            link: BLOG_URL + "?page=".concat(i),
+            link: BLOG_URL + "?page=".concat(i, "&search=").concat(this.search, "&author=").concat(this.author),
             number: i,
             current: i === this.page ? 'current navigation-link' : 'navigation-link'
           });
@@ -2344,6 +2329,8 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _blog__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../blog */ "./resources/js/blog.js");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -2374,14 +2361,15 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {
+    var _ref;
+
+    return _ref = {
       errors: [],
       title: null,
       authors: [],
       author: null,
-      is_loaded: false,
-      default_image: APP_URL + '/images/default_image.png'
-    };
+      is_loaded: false
+    }, _defineProperty(_ref, "title", '' === window.location.search ? '' : window.location.search.split('=')[2].split('&')[0]), _defineProperty(_ref, "author", '' === window.location.search ? '0' : window.location.search.split('=').pop()), _defineProperty(_ref, "default_image", APP_URL + '/images/default_image.png'), _ref;
   },
   mounted: function mounted() {
     this.getAuthors();
@@ -2530,8 +2518,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 var user_token = USER_TOKEN;
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2544,7 +2530,7 @@ var user_token = USER_TOKEN;
       more_pages: false,
       pages: [],
       total: 0,
-      search: null,
+      search: '' === window.location.search ? '' : window.location.search.split('=').pop(),
       home_url: HOME_URL,
       create_post_url: HOME_URL + '/post',
       posts_number: 1,
@@ -2554,6 +2540,17 @@ var user_token = USER_TOKEN;
   methods: {
     getPosts: function getPosts(event) {
       event.preventDefault();
+
+      if (this.search) {
+        var data = {
+          search: this.search
+        };
+        _blog__WEBPACK_IMPORTED_MODULE_0__["serverBus"].$emit('user-posts-filter', data);
+        return true;
+      }
+
+      this.errors = [];
+      this.errors.push('Preencha o campo de busca.');
     }
   }
 });
@@ -2597,6 +2594,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var user_token = USER_TOKEN;
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2605,46 +2611,66 @@ var user_token = USER_TOKEN;
       posts: [{}],
       is_loading: true,
       has_posts: false,
-      page: '' === window.location.search ? 1 : parseInt(window.location.search.split('=').pop()),
+      page: '' === window.location.search ? 1 : parseInt(window.location.search.split('=')[1].split('&')[0]),
       more_pages: false,
       pages: [],
       total: 0,
-      posts_number: 12,
+      posts_number: 1,
+      search: '' === window.location.search ? '' : window.location.search.split('=').pop(),
+      confirmation: false,
       default_image: APP_URL + '/images/default_image.png'
     };
   },
   mounted: function mounted() {
-    this.getPosts();
+    this.searchPosts();
+  },
+  created: function created() {
+    var _this = this;
+
+    _blog__WEBPACK_IMPORTED_MODULE_0__["serverBus"].$on('user-posts-filter', function (data) {
+      _this.is_loaded = false;
+      _this.search = data.search;
+      window.location.href = BLOG_URL + "?page=1&search=".concat(_this.search);
+    });
   },
   methods: {
-    getPosts: function getPosts() {
-      var _this = this;
+    searchPosts: function searchPosts() {
+      var _this2 = this;
 
-      axios.get(API_URL + "user/posts/".concat(this.posts_number, "/").concat(this.page, "?api_token=").concat(user_token)).then(function (response) {
-        _this.is_loading = false;
+      axios.post(API_URL + "user/posts/".concat(this.posts_number, "/").concat(this.page), {
+        search: this.search,
+        api_token: user_token
+      }).then(function (response) {
+        _this2.is_loading = false;
+        _this2.total = response.data.total;
+        _this2.per_page = response.data.per_page;
+        console.log(_this2.total);
 
         if (200 === response.status) {
           response.data.data.map(function (post, index) {
-            response.data.data[index].url = APP_URL + '/home/post/' + post.id;
+            response.data.data[index].url = HOME_URL + "/".concat(post.slug);
           });
-          _this.posts = response.data.data;
-          _this.has_posts = true;
-
-          _this.paginationLinks();
+          _this2.posts = response.data.data;
+          _this2.has_posts = true;
         } else {
-          _this.posts = [{}];
-          _this.has_posts = false;
+          _this2.posts = [{}];
+          _this2.has_posts = false;
         }
+
+        _this2.paginationLinks();
       });
     },
     paginationLinks: function paginationLinks() {
-      if (this.total > this.posts_number) {
+      this.pages = [];
+      console.log(this.per_page);
+
+      if (this.total > this.per_page) {
         this.more_pages = true;
         var pages = Math.ceil(this.total / this.per_page);
 
         for (var i = 1; i <= pages; i++) {
           this.pages.push({
-            link: BLOG_URL + "?page=".concat(i),
+            link: HOME_URL + "?page=".concat(i, "&search=").concat(this.search),
             number: i,
             current: i === this.page ? 'current navigation-link' : 'navigation-link'
           });
@@ -2658,6 +2684,19 @@ var user_token = USER_TOKEN;
         more_pages: this.more_pages
       };
       _blog__WEBPACK_IMPORTED_MODULE_0__["serverBus"].$emit('more-pages', data);
+    },
+    deletePost: function deletePost() {
+      this.confirmation = true;
+    },
+    doDelete: function doDelete(event) {
+      axios["delete"](API_URL + "user/post/".concat(event.target.value, "?api_token=").concat(user_token)).then(function (response) {
+        if (200 === response.status && 1 === response.data) {
+          window.location.href = HOME_URL;
+        }
+      });
+    },
+    dontDelete: function dontDelete() {
+      this.confirmation = false;
     }
   }
 });
@@ -38656,9 +38695,7 @@ var render = function() {
       _c("posts-loop", {
         staticClass: "card-body",
         attrs: { id: "user-posts" }
-      }),
-      _vm._v(" "),
-      _c("navigation-links", { attrs: { id: "navigation-links" } })
+      })
     ],
     1
   )
@@ -38711,10 +38748,39 @@ var render = function() {
               _c("td", [_vm._v(_vm._s(post.excerpt))]),
               _vm._v(" "),
               _c("td", [
-                _c("a", { attrs: { href: post.url } }, [_vm._v("Editar")])
+                _c("a", { attrs: { href: post.url } }, [
+                  _c("i", { staticClass: "fas fa-pencil-alt" })
+                ])
               ]),
               _vm._v(" "),
-              _vm._m(2, true)
+              _c("td", [
+                _c("button", { on: { click: _vm.deletePost } }, [
+                  _c("i", { staticClass: "far fa-trash-alt" })
+                ]),
+                _vm._v(" "),
+                _vm.confirmation
+                  ? _c("div", [
+                      _c("label", [
+                        _vm._v("Você deseja realmente deletar este post?")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "options" }, [
+                        _c(
+                          "button",
+                          {
+                            attrs: { value: post.id },
+                            on: { click: _vm.doDelete }
+                          },
+                          [_vm._v("Sim")]
+                        ),
+                        _vm._v(" "),
+                        _c("button", { on: { click: _vm.dontDelete } }, [
+                          _vm._v("Não")
+                        ])
+                      ])
+                    ])
+                  : _vm._e()
+              ])
             ])
           : _c("tr", [
               _c("td", { attrs: { colspan: "5" } }, [
@@ -38753,12 +38819,6 @@ var staticRenderFns = [
         _c("th", { attrs: { scope: "col", colspan: "2" } }, [_vm._v("Ações")])
       ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [_c("button", [_vm._v("Deletar")])])
   }
 ]
 render._withStripped = true
