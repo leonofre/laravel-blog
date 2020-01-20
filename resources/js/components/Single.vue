@@ -6,7 +6,7 @@
                 <h2>{{ post.title }}</h2>
             </div>
             <div class="content">
-                <p>{{ post.description }}</p>
+                <div v-html="post.description"></div>
                 <small>{{ post.author }}</small>
             </div>
             <nav class="navigation-wrapper">
@@ -33,7 +33,6 @@
 </template>
 <script>
     import { serverBus } from '../blog';
-    const api_url = APP_URL + '/api/';
     export default {
         data () {
             return {
@@ -58,7 +57,7 @@
         methods: {
             getPost: function( slug = '' ) {
                 axios
-                  .get( api_url + `posts/single/${slug}` )
+                  .get( API_URL + `posts/single/${slug}` )
                   .then( response => {
                     this.is_loaded = true
 

@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <user-dashboard id="user-dashboard" class="card">
-    </user-dashboard>
+    <create-post class="card" id="create-post">
+    </create-post>
 </div>
 @endsection

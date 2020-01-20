@@ -19,10 +19,15 @@ if ( 'single-post' === ROUTE ) {
 }
 
 if ( 'home' === ROUTE ) {
-	require( './user-posts' );
 	require( './navigation-links' );
+	require( './user-posts' );
+	require( './user-dashboard' );
 }
 
 if ( 'edit-post' === ROUTE ) {
 	require( './edit-post' );
+}
+
+if ( 'create-post' === ROUTE ) {
+	require( './create-post' );
 }

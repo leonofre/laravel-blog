@@ -7,7 +7,6 @@
 </template>
 <script>
     import { serverBus } from '../blog';
-    const api_url = APP_URL + '/api/';
     export default {
         data () {
             return {

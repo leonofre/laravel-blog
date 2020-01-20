@@ -27,8 +27,6 @@
 </template>
 <script>
 	import { serverBus } from '../blog';
-	const api_url    = APP_URL + '/api/';
-	const blog_url   = APP_URL + '/blog';
 	const user_token = USER_TOKEN;
 	export default {
 		data () {
@@ -40,7 +38,7 @@
 				more_pages: false,
 				pages: [],
 				total: 0,
-				posts_number: 1,
+				posts_number: 12,
 				default_image: APP_URL + '/images/default_image.png'
 			}
 		},
@@ -50,7 +48,7 @@
 		methods: {
 			getPosts: function() {
 				axios
-				.get( api_url + `user/posts/${this.posts_number}/${this.page}?api_token=${user_token}`)
+				.get( API_URL + `user/posts/${this.posts_number}/${this.page}?api_token=${user_token}`)
 				.then( response => {
 					this.is_loading = false
 
@@ -74,7 +72,7 @@
 					var pages = Math.ceil( this.total / this.per_page );
 					for ( var i = 1; i <= pages; i++ ) {
 						this.pages.push({
-							link: blog_url + `?page=${i}`,
+							link: BLOG_URL + `?page=${i}`,
 							number: i,
 							current: i === this.page ? 'current navigation-link' : 'navigation-link'
 						});

@@ -10,8 +10,11 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <script type="text/javascript">
-        const APP_URL = {!! json_encode(url('/')) !!}
-        const ROUTE   = '{!! Route::currentRouteName() !!}'
+        const APP_URL  = {!! json_encode(url('/')) !!}
+        const ROUTE    = '{!! Route::currentRouteName() !!}'
+        const HOME_URL = APP_URL + '/home';
+        const BLOG_URL = APP_URL + '/blog';
+        const API_URL  = APP_URL + '/api/';
     </script>
     @auth
     <script type="text/javascript">

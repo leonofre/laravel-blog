@@ -17989,6 +17989,17 @@ header {
   pointer-events: none;
 }
 
+.container .card {
+  width: 100%;
+}
+
+.container .card .card-header {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-pack: justify;
+          justify-content: space-between;
+}
+
 .loader {
   position: absolute;
   width: 100%;
