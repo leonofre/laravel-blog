@@ -1,0 +1,21 @@
+@media ( max-width: $mobile-large ) {
+    .posts-wrapper {
+        width: 100vw;
+        padding: 20px;
+    }
+    #navigation-links {
+        width: 100vw;
+    }
+}
+
+@media ( max-width: $mobile-medium ) {
+    #post-data {
+        .post {
+            .single-header {
+                h2 {
+                    font-size: $h2-single-font-size-mobile;
+                }
+            }
+        }
+    }
+}

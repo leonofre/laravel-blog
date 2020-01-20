@@ -6799,7 +6799,7 @@ h1,
 
 h2,
 .h2 {
-  font-size: 1.2rem;
+  font-size: 1.7rem;
 }
 
 h3,
@@ -17843,8 +17843,8 @@ header {
 }
 
 .posts-wrapper {
-  width: 60vw;
-  padding-left: 20px;
+  width: 78vw;
+  padding-left: 5vw;
   display: -webkit-box;
   display: flex;
   -webkit-box-pack: justify;
@@ -17853,31 +17853,48 @@ header {
 }
 
 .posts-wrapper .posts {
-  width: 48%;
-  margin-bottom: 20px;
+  width: 100%;
   position: relative;
+  padding: 20px 0;
+  border-top: 1px solid #f1f1f1;
+  border-bottom: 1px solid #f1f1f1;
 }
 
-.posts-wrapper .posts .image-wrapper {
+.posts-wrapper .posts a,
+.posts-wrapper .posts .pre-load {
+  display: -webkit-box;
+  display: flex;
+}
+
+.posts-wrapper .posts a .image-wrapper,
+.posts-wrapper .posts .pre-load .image-wrapper {
   height: 200px;
   display: -webkit-box;
   display: flex;
   -webkit-box-align: center;
           align-items: center;
+  -webkit-box-pack: start;
+          justify-content: flex-start;
   overflow: hidden;
+  width: 40%;
 }
 
-.posts-wrapper .posts .image-wrapper img {
-  width: 100%;
+.posts-wrapper .posts a .image-wrapper img,
+.posts-wrapper .posts .pre-load .image-wrapper img {
+  height: 100%;
 }
 
-.posts-wrapper .posts .content {
-  padding: 20px;
-  background-color: #3f51b5;
-  color: #d4d4d4;
-  height: 220px;
+.posts-wrapper .posts a .content,
+.posts-wrapper .posts .pre-load .content {
+  padding: 0 20px;
+  color: #757575;
+  height: 200px;
   display: -webkit-box;
   display: flex;
+  -webkit-box-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: start;
+          align-items: flex-start;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
           flex-direction: column;
@@ -17885,14 +17902,22 @@ header {
           flex: 1;
 }
 
-.posts-wrapper .posts .content h2 {
-  -webkit-box-flex: 1;
-          flex: 1;
-  font-size: 1.2rem;
+.posts-wrapper .posts a .content h2,
+.posts-wrapper .posts .pre-load .content h2 {
+  font-size: 1.7rem;
+  color: #444444;
+  text-align: left;
 }
 
-.posts-wrapper .posts .content p {
+.posts-wrapper .posts a .content p,
+.posts-wrapper .posts .pre-load .content p {
   max-height: 170px;
+  text-align: left;
+  font-size: 1.1rem;
+}
+
+.posts-wrapper .posts a:hover {
+  text-decoration: none;
 }
 
 #post-data .post {
@@ -17931,9 +17956,10 @@ header {
 }
 
 #post-data .post .content {
+  font-size: 1.1rem;
   padding: 20px;
-  background-color: #3f51b5;
-  color: #d4d4d4;
+  background-color: #f1f1f1;
+  color: #757575;
   display: -webkit-box;
   display: flex;
   -webkit-box-orient: vertical;
@@ -17941,6 +17967,12 @@ header {
           flex-direction: column;
   -webkit-box-flex: 1;
           flex: 1;
+}
+
+#post-data .post .content small {
+  margin-top: 30px;
+  padding: 30px 0;
+  border-top: 1px solid #f1f1f1;
 }
 
 #post-data .post .navigation-wrapper {
@@ -17954,7 +17986,7 @@ header {
 }
 
 #post-data .post .navigation-wrapper .navigation-link {
-  font-size: 2rem;
+  font-size: 1.3rem;
   color: #ffffff;
 }
 
@@ -17963,29 +17995,30 @@ header {
 }
 
 #navigation-links {
-  width: 100%;
+  width: 73vw;
+  margin-left: 5vw;
 }
 
 #navigation-links .navigation-wrapper {
   width: 100%;
-  background-color: #00000085;
   display: -webkit-box;
   display: flex;
-  justify-content: space-around;
+  -webkit-box-pack: center;
+          justify-content: center;
   padding: 10px 50px;
 }
 
 #navigation-links .navigation-wrapper .navigation-link {
-  font-size: 2rem;
-  color: #ffffff;
-}
-
-#navigation-links .navigation-wrapper .navigation-link :hover {
-  text-decoration: none;
+  font-size: 1.3rem;
+  color: #444444;
+  padding: 10px;
 }
 
 #navigation-links .navigation-wrapper .current {
-  color: #444444;
+  color: #a9a9a9;
+  pointer-events: none;
+  color: #a9a9a9;
+  text-decoration: underline;
   pointer-events: none;
 }
 
@@ -18002,12 +18035,14 @@ header {
 
 .posts-filter {
   position: fixed;
-  right: 20px;
+  right: 0;
+  width: 20vw;
 }
 
 .posts-filter .form-filter {
   padding: 20px;
-  background-color: #3f51b5;
+  border: 1px solid #f1f1f1;
+  border-right: none;
   display: -webkit-box;
   display: flex;
   -webkit-box-orient: vertical;
@@ -18019,7 +18054,7 @@ header {
           align-items: flex-end;
 }
 
-.posts-filter .form-filter p {
+.posts-filter .form-filter div {
   display: -webkit-box;
   display: flex;
   -webkit-box-orient: vertical;
@@ -18030,16 +18065,57 @@ header {
   -webkit-box-align: end;
           align-items: flex-end;
   width: 100%;
+  margin: 10px 0;
 }
 
-.posts-filter .form-filter p label {
-  color: #d4d4d4;
+.posts-filter .form-filter div label {
+  color: #757575;
 }
 
-.posts-filter .form-filter p input,
-.posts-filter .form-filter p select {
+.posts-filter .form-filter div input {
   width: 100%;
   border-radius: 0;
+  border: none;
+  padding: 10px;
+  -webkit-appearance: none;
+  background-color: #f1f1f1;
+}
+
+.posts-filter .form-filter div .select-wrapper {
+  position: relative;
+}
+
+.posts-filter .form-filter div .select-wrapper select {
+  width: 100%;
+  border-radius: 0;
+  border: none;
+  padding: 10px;
+  -webkit-appearance: none;
+  background-color: #f1f1f1;
+}
+
+.posts-filter .form-filter div .select-wrapper i {
+  position: absolute;
+  bottom: 50%;
+  -webkit-transform: translate(0%, 25%);
+          transform: translate(0%, 25%);
+  right: 15px;
+}
+
+.posts-filter .form-filter div input[type=submit] {
+  background-color: #7a7a7a;
+  border: none;
+  color: #f1f1f1;
+}
+
+.posts-filter .form-filter .error-wrapper {
+  position: absolute;
+  bottom: -50px;
+  right: 0;
+  width: 100%;
+  color: #fff;
+  background-color: #d03030;
+  padding: 8px;
 }
 
 .loader {
@@ -18114,6 +18190,30 @@ header {
   100% {
     -webkit-transform: rotate(360deg);
             transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 1024px) {
+  .posts-wrapper {
+    width: 100vw;
+    padding: 20px;
+  }
+
+  #navigation-links {
+    width: 100vw;
+  }
+}
+
+@media (max-width: 768px) {
+  #post-data .post .single-header h2 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .posts-filter {
+    position: relative;
+    width: 100vw;
   }
 }
 

@@ -2232,6 +2232,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2250,7 +2252,6 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    console.log(this.search);
     this.searchPosts();
   },
   created: function created() {
@@ -2357,7 +2358,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2369,7 +2369,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       authors: [],
       author: null,
       is_loaded: false
-    }, _defineProperty(_ref, "title", '' === window.location.search ? '' : window.location.search.split('=')[2].split('&')[0]), _defineProperty(_ref, "author", '' === window.location.search ? '0' : window.location.search.split('=').pop()), _defineProperty(_ref, "default_image", APP_URL + '/images/default_image.png'), _ref;
+    }, _defineProperty(_ref, "title", '' === window.location.search ? '' : window.location.search.split('=')[2].split('&')[0]), _defineProperty(_ref, "author", '' === window.location.search ? '' : window.location.search.split('=').pop()), _defineProperty(_ref, "default_image", APP_URL + '/images/default_image.png'), _ref;
   },
   mounted: function mounted() {
     this.getAuthors();
@@ -38364,13 +38364,15 @@ var render = function() {
         "div",
         _vm._l(_vm.posts, function(post) {
           return _c("article", { key: post.id, staticClass: "posts" }, [
-            _vm._m(0, true),
-            _vm._v(" "),
-            _c("div", { staticClass: "image-wrapper" }, [
-              _c("img", { attrs: { src: _vm.default_image, alt: "" } })
-            ]),
-            _vm._v(" "),
-            _vm._m(1, true)
+            _c("div", { staticClass: "pre-load" }, [
+              _vm._m(0, true),
+              _vm._v(" "),
+              _c("div", { staticClass: "image-wrapper" }, [
+                _c("img", { attrs: { src: _vm.default_image, alt: "" } })
+              ]),
+              _vm._v(" "),
+              _vm._m(1, true)
+            ])
           ])
         }),
         0
@@ -38429,89 +38431,96 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("form", { staticClass: "form-filter", on: { submit: this.checkForm } }, [
-      _c("p", [
-        _c("label", { attrs: { for: "title" } }, [_vm._v("Buscar Por")]),
-        _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.title,
-              expression: "title"
-            }
-          ],
-          attrs: { id: "title", type: "text", name: "title" },
-          domProps: { value: _vm.title },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.title = $event.target.value
-            }
-          }
-        })
-      ]),
-      _vm._v(" "),
-      _c("p", [
-        _c("label", { attrs: { for: "author" } }, [_vm._v("Autor")]),
-        _vm._v(" "),
-        _c(
-          "select",
-          {
+    _c(
+      "form",
+      { staticClass: "form-filter", on: { submit: this.checkForm } },
+      [
+        _c("div", [
+          _c("input", {
             directives: [
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.author,
-                expression: "author"
+                value: _vm.title,
+                expression: "title"
               }
             ],
-            attrs: { id: "author", name: "author" },
+            attrs: {
+              id: "title",
+              type: "text",
+              name: "title",
+              placeholder: "Buscar Por"
+            },
+            domProps: { value: _vm.title },
             on: {
-              change: function($event) {
-                var $$selectedVal = Array.prototype.filter
-                  .call($event.target.options, function(o) {
-                    return o.selected
-                  })
-                  .map(function(o) {
-                    var val = "_value" in o ? o._value : o.value
-                    return val
-                  })
-                _vm.author = $event.target.multiple
-                  ? $$selectedVal
-                  : $$selectedVal[0]
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.title = $event.target.value
               }
             }
-          },
-          [
-            _c("option", { attrs: { value: "0", selected: "selected" } }, [
-              _vm._v("Selecione o autor")
-            ]),
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", [
+          _c("div", { staticClass: "select-wrapper" }, [
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.author,
+                    expression: "author"
+                  }
+                ],
+                attrs: { id: "author", name: "author" },
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.author = $event.target.multiple
+                      ? $$selectedVal
+                      : $$selectedVal[0]
+                  }
+                }
+              },
+              [
+                _c("option", { attrs: { value: "", selected: "selected" } }, [
+                  _vm._v("Selecione o autor")
+                ]),
+                _vm._v(" "),
+                _vm._l(_vm.authors, function(author) {
+                  return _c("option", { domProps: { value: author.id } }, [
+                    _vm._v(_vm._s(author.name))
+                  ])
+                })
+              ],
+              2
+            ),
             _vm._v(" "),
-            _vm._l(_vm.authors, function(author) {
-              return _c("option", { domProps: { value: author.id } }, [
-                _vm._v(_vm._s(author.name))
-              ])
-            })
-          ],
-          2
-        )
-      ]),
-      _vm._v(" "),
-      _vm._m(0),
-      _vm._v(" "),
-      _c(
-        "p",
-        { staticClass: "error-wrapper" },
+            _c("i", { staticClass: "fas fa-sort-down" })
+          ])
+        ]),
+        _vm._v(" "),
+        _vm._m(0),
+        _vm._v(" "),
         _vm._l(_vm.errors, function(error) {
-          return _c("span", [_vm._v(_vm._s(error))])
-        }),
-        0
-      )
-    ])
+          return _c("p", { staticClass: "error-wrapper" }, [
+            _vm._v(_vm._s(error))
+          ])
+        })
+      ],
+      2
+    )
   ])
 }
 var staticRenderFns = [
@@ -38519,7 +38528,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("p", [
+    return _c("div", [
       _c("input", { attrs: { type: "submit", value: "Enviar" } })
     ])
   }
@@ -38578,9 +38587,11 @@ var render = function() {
                   },
                   [
                     _vm.post.prev_name
-                      ? _c("i", { staticClass: "fas fa-arrow-circle-left" })
-                      : _vm._e(),
-                    _vm._v(_vm._s(_vm.post.prev_name))
+                      ? _c("span", [
+                          _c("i", { staticClass: "fas fa-arrow-circle-left" }),
+                          _vm._v(" Anterior")
+                        ])
+                      : _vm._e()
                   ]
                 ),
                 _vm._v(" "),
@@ -38591,9 +38602,11 @@ var render = function() {
                     attrs: { href: _vm.post.next_link }
                   },
                   [
-                    _vm._v(_vm._s(_vm.post.next_name) + " "),
                     _vm.post.next_name
-                      ? _c("i", { staticClass: "fas fa-arrow-circle-right" })
+                      ? _c("span", [
+                          _vm._v("Próximo "),
+                          _c("i", { staticClass: "fas fa-arrow-circle-right" })
+                        ])
                       : _vm._e()
                   ]
                 )
@@ -38640,7 +38653,7 @@ var staticRenderFns = [
         )
       ]),
       _vm._v(" "),
-      _c("small", [_vm._v("Post Author")])
+      _c("strong", [_c("small", [_vm._v("Post Author")])])
     ])
   }
 ]
