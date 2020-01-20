@@ -28,5 +28,8 @@ Route::group(['prefix' => 'blog'], function() {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::group(['prefix' => 'home'], function() {
+	Route::middleware('auth')->get('/', 'HomeController@index')->name('home');
+	Route::middleware('auth')->get('/post/{id}', 'HomeController@show')->name( 'edit-post' );
+});
 

@@ -5,7 +5,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #00000085;
+  background-color: $background-oppacity-color;
+  z-index: 9;
 }
 
 

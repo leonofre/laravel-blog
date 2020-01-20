@@ -4,7 +4,7 @@
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    .post {
+    .posts {
         width: 48%;
         margin-bottom: 20px;
         position: relative;
@@ -26,6 +26,84 @@
             p {
                 max-height: 170px;
             }
+        }
+    }
+}
+
+#post-data {
+    .post {
+        width: 100vw;
+        position: relative;
+        .loader {
+            .lds-ring {
+                div {
+                    border: 8px solid $single-loader-color;
+                    border-color: $single-loader-color transparent transparent transparent;
+                }
+            }
+        }
+        .single-header {
+            position: relative;
+            max-height: 70vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            img {
+                width: 100%;
+            }
+            h2 {
+                font-size: $h2-single-font-size;
+                position: absolute;
+                margin: 0;
+                bottom: 0;
+                right: 0;
+                color: $single-title-color;
+                padding: 10px 50px;
+                background-color: $background-oppacity-color;
+            }
+        }
+        .content {
+            padding: 20px;
+            background-color: $primary-color;
+            color: $post-text-color;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+        .navigation-wrapper {
+            width: 100vw;
+            background-color: $background-oppacity-color;
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 50px;
+            .navigation-link {
+                font-size: $navigation-font-size;
+                color: $single-title-color;
+                :hover {
+                    text-decoration: none;
+                }
+            }
+        }
+    }
+}
+#navigation-links {
+    width: 100vw;
+    .navigation-wrapper {
+        width: 100vw;
+        background-color: $background-oppacity-color;
+        display: flex;
+        justify-content: space-around;
+        padding: 10px 50px;
+        .navigation-link {
+            font-size: $navigation-font-size;
+            color: $single-title-color;
+            :hover {
+                text-decoration: none;
+            }
+        }
+        .current {
+            color: $navigation-disabled;
+            pointer-events: none;
         }
     }
 }

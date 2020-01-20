@@ -14,6 +14,12 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+        $user = factory(User::class, 1)
+           ->create([
+                'email' => 'admin@admin.com',
+                'role'  => 'admin'
+           ]);
+
         $user = factory(User::class, 5)
            ->create()
            ->each(function ($user) {
