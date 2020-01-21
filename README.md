@@ -42,7 +42,7 @@
     - map: homestead.test
       to: /home/vagrant/code/public
     ```
-10. Foi criado um usuário admin, para acesso ao dashboard, seus dados são:
+10. Foi criado um usuário admin, para acesso ao dashboard, inicialmente ele não possui nenhum post criado, seus dados de acesso são:
     + E-mail: admin@admin.com
     + Senha: password
 
