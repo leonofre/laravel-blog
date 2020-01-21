@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
                 'role'  => 'admin'
            ]);
 
-        $user = factory(User::class, 5)
+        $user = factory(User::class, 9)
            ->create()
            ->each(function ($user) {
                 $post = factory(Post::class, 2)->create([
